@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.setec_ecomerce.repository.front_end_transaction.dao.wishlist.WishlistDAO;
 import com.setec_ecomerce.repository.front_end_transaction.dto.wishlist.Wishlist;
+import com.setec_ecomerce.repository.products.dto.PageForm;
 import com.setec_ecomerce.service.front_end_transaction.WishlistService;
 
 @Service
@@ -16,9 +17,19 @@ public class WishlistServiceImpl implements WishlistService{
 	private WishlistDAO wishlistDao;
 	
 	@Override
-	public ArrayList<Wishlist> getWishlists(int customer_id) {
+	public ArrayList<Wishlist> getWishlists(PageForm page) {
 		// TODO Auto-generated method stub
-		return wishlistDao.getWishlists(customer_id);
+		return wishlistDao.getWishlists(page);
+	}
+	
+	@Override
+	public int countPageWishlists(PageForm page) {
+		return (int) Math.ceil(wishlistDao.countAllWishlists(page) / (double)page.getLimit());
+	}
+	
+	@Override
+	public int countWishlists(PageForm page) {
+		return wishlistDao.countAllWishlists(page);
 	}
 
 	@Override

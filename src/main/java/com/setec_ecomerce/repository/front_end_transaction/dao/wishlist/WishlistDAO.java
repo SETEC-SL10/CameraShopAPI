@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import com.setec_ecomerce.repository.front_end_transaction.dto.wishlist.Wishlist;
+import com.setec_ecomerce.repository.products.dto.PageForm;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductImageForm;
 @Repository
 public interface WishlistDAO {
@@ -21,7 +22,8 @@ public interface WishlistDAO {
 	
 	String D_Wishlist = "DELETE FROM table_wishlist WHERE wishlist_id = #{wishlist_id}";
 	
-	String F_Product = "SELECT * FROM view_wishlist_products_form  WHERE customer_id = #{customer_id}";
+	String F_Product = "SELECT * FROM view_wishlist_products_form  WHERE customer_id =  #{conditionValue}:: Integer LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String F_Product_Page = "SELECT count(*) FROM view_wishlist_products_form  WHERE customer_id =  #{conditionValue}:: Integer";
 	
 	String F_A_Image = "SELECT image_id, product_id, color_id, serial, image_url, status FROM view_products_image_form WHERE product_id = #{ProID} AND color_id = #{ColorID} AND COALESCE(serial, ''::character varying)::text = COALESCE(#{Serial}, ''::character varying)::text";
 	
@@ -63,7 +65,7 @@ public interface WishlistDAO {
 		@Result(property = "product.images", column = "{ProID = product_id, ColorID = color_id, Serial = serial}", many = @Many(select = "getAllProductImage")),
 		@Result(property = "product.status", column = "status")
 	})
-	ArrayList<Wishlist> getWishlists(int customer_id);
+	ArrayList<Wishlist> getWishlists(PageForm page);
 	
 	@Select(F_A_Image)
 	@Results({
@@ -75,6 +77,9 @@ public interface WishlistDAO {
 		@Result(property = "status", column = "status")
 	})
 	ArrayList<ProductImageForm> getAllProductImage(@Param("ProID") String pro_id, @Param("ColorID") int color_id, @Param("Serial") String serial);
+	
+	@Select(F_Product_Page)
+	int countAllWishlists(PageForm page);
 	
 	@Insert(C_Wishlist)
 	boolean insertWishlist(Wishlist wishlist);

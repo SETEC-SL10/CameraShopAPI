@@ -32,12 +32,14 @@ public interface CartDAO {
 	
 	String Check_Cart = "select exists(select cart_id from table_cart where table_cart.customer_id = #{customer_id} AND table_cart.product_id = #{product.product_id} AND table_cart.color_id = #{product.color.color_id} AND COALESCE(table_cart.serial, ''::character varying)::text = COALESCE(#{product.serial}, ''::character varying)::text)";
 
+	String F_Cart_ID = "select cart_id from table_cart where table_cart.customer_id = #{customer_id} AND table_cart.product_id = #{product.product_id} AND table_cart.color_id = #{product.color.color_id} AND COALESCE(table_cart.serial, ''::character varying)::text = COALESCE(#{product.serial}, ''::character varying)::text";
+	
 	String F_Product_Qty = "SELECT qty FROM view_cart_products_form WHERE cart_id = #{cart_id}";
 
 	@Insert(C_Cart)
 	boolean insertCart(Cart cart);
 	
-	@Delete(C_Cart)
+	@Delete(D_Cart)
 	boolean deletetCart(int cart_id);
 	
 	@Update(U_Cart)
@@ -52,6 +54,9 @@ public interface CartDAO {
 	
 	@Select(Check_Cart)
 	boolean checkCart(Cart cart);
+	
+	@Select(F_Cart_ID)
+	int getCartID(Cart cart);
 	
 	@Select(F_Cart)
 	@Results({

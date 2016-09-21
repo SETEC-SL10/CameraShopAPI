@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.setec_ecomerce.repository.front_end_transaction.dto.wishlist.Wishlist;
+import com.setec_ecomerce.repository.products.dto.PageForm;
 import com.setec_ecomerce.repository.utils.Utils;
 import com.setec_ecomerce.service.front_end_transaction.WishlistService;
 
@@ -22,9 +23,9 @@ public class WishlistController {
 	@Autowired
 	private WishlistService wishlistService;
 	
-	@RequestMapping(value="/{customer_id}",method=RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getWishlistByCustomer(@PathVariable int customer_id){
-		ArrayList<Wishlist> wishlist = wishlistService.getWishlists(customer_id);
+	@RequestMapping(value="/all",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> getWishlistByCustomer(@RequestBody PageForm page){
+		ArrayList<Wishlist> wishlist = wishlistService.getWishlists(page);
 		if( wishlist == null ){
 			return Utils.respondJson("Record not found", null, HttpStatus.OK);
 		}else{
@@ -45,6 +46,16 @@ public class WishlistController {
 			return Utils.respondJson("Unsuccess Insert Wishlist", null, HttpStatus.OK);
 		}
 	}
+	
+	@RequestMapping(value="/page",method=RequestMethod.POST)
+	public int countPageWishlist(@RequestBody PageForm page){
+		return wishlistService.countPageWishlists(page);
+	} 
+	
+	@RequestMapping(value="/count",method=RequestMethod.POST)
+	public int countWishlists(@RequestBody PageForm page){
+		return wishlistService.countWishlists(page);
+	} 
 	
 	@RequestMapping(value="/{wishlist_id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> deleteWishlist(@PathVariable int wishlist_id){

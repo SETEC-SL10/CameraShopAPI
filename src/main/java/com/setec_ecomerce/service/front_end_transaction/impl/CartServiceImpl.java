@@ -44,7 +44,10 @@ public class CartServiceImpl implements CartService{
 	
 	public boolean updateCartIncrease(Cart cart) {
 		if( cart.getProduct().getProduct_id().substring(1, 2).equals("N")){
-			return cartDao.updateCartIncrease(cart.getCart_id(), cart.getProduct_qty());
+			cart.setCart_id(cartDao.getCartID(cart));
+			boolean b = cartDao.updateCartIncrease(cart.getCart_id(), cart.getProduct_qty());
+//			System.out.println(b);
+			return b;
 		}else{
 			return false;
 		}
