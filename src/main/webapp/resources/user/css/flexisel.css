@@ -1,0 +1,99 @@
+
+.lady-in-on{
+	background:#fff;
+	padding: 1.5em 1em;
+}
+#flexiselDemo1 {
+	display: none;
+}
+.nbs-flexisel-container {
+	position: relative;
+	max-width: 100%;
+	padding: 2em 0;
+}
+#popular img {
+	max-height:150px;
+	min-height:150px;
+	padding: auto 10px;
+	
+}
+.nbs-flexisel-ul {
+	position: relative;
+	width: 9999px;
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	text-align: center;
+}
+.nbs-flexisel-inner {
+	overflow: hidden;
+	width:90%;
+	margin: 0 auto;
+}
+.nbs-flexisel-item {
+	float: left;
+	margin: 0px ;
+	padding: 0px;
+	cursor: pointer;
+	position: relative;
+	line-height: 0px;
+}
+.nbs-flexisel-item > img {
+	cursor: pointer;
+	position: relative;
+}
+/*---- Navigation ---*/
+.nbs-flexisel-nav-left, .nbs-flexisel-nav-right {
+	width:32px;
+	height:32px;
+	position: absolute;
+	cursor: pointer;
+	z-index: 100;
+}
+.nbs-flexisel-nav-left {
+	left: 0px;
+	background: url(../img/img-sprite.png) no-repeat -44px 0px;
+}
+.nbs-flexisel-nav-right {
+	right: 0px;
+	background: url(../img/img-sprite.png) no-repeat -77px 0px;
+}
+.hide-in{
+	padding:1px 0 1em;
+	text-align:left;
+}
+.hide-in p{
+	font-size: 0.9em;
+	font-weight: 600;
+	line-height: 2.5em;
+	padding:0 0 0.3em;
+	color: #373737;
+}
+.hide-in span{
+	font-size: 1em;
+	color: #bc3726;
+	font-weight: 600;
+}
+.hide-in span a{
+	color:#000;
+	text-decoration:none;
+	border-bottom:1px solid #c3c3c3;
+	min-height:22px;
+}
+.hide-in span a:hover{
+	border-bottom:none;
+	color:#bc3726;
+}
+.buy-an {
+	border-bottom: 1px solid #D1D0D0;
+}
+.buy-an h3{
+	font-size:1.5em;
+	color:#000;
+	font-family: 'Oswald', sans-serif;
+}
+.buy-an p{
+	font-size: 1em;
+	color: #858585;
+	padding: 0.5em 0 1em;
+}
