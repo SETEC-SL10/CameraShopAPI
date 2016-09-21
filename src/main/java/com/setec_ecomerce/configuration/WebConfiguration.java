@@ -18,7 +18,7 @@ public class WebConfiguration {
 		datasource.setDriverClassName("org.postgresql.Driver");
 		datasource.setUrl("jdbc:postgresql://localhost:5432/sa_db");
 		datasource.setUsername("postgres");
-		datasource.setPassword("12345");
+		datasource.setPassword("123456");
 		return datasource;
 	}
 	@Bean
