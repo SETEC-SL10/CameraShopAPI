@@ -1,4 +1,4 @@
-package com.setec_ecomerce.repository.products;
+package com.setec_ecomerce.repository.products.dao;
 
 import java.util.ArrayList;
 
@@ -106,6 +106,10 @@ public interface ProductFormDAO {
 	String F_AccessoryOldForm_Color = "SELECT * FROM view_accessory_old_form WHERE LOWER(view_accessory_old_form.color_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
 	String CountPage_F_AccessoryOldForm_Color = "SELECT count(*) FROM view_accessory_old_form WHERE LOWER(view_accessory_old_form.color_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%'";
 	
+	String F_ProductNewFormRelated = "SELECT * FROM view_products_form WHERE category_name = #{category.category_name} AND brand_name = #{brand.brand_name} LIMIT 10";
+	String F_ProductNewForm = "SELECT * FROM view_products_form WHERE product_id = #{product_id}"; 
+	String F_ProductOldForm = "SELECT * FROM view_products_form WHERE product_id = #{product_id} AND color_id = #{color.color_id} AND coalesce(serial,'') = coalesce(#{serial},'')";
+	
 	String F_A_Product_Image = "SELECT * FROM view_products_image_form WHERE product_id = #{ProID} AND color_id = #{ColorID} AND coalesce(serial,'') = coalesce(#{Serial},'') AND status = true";
 	String F_A_CameraNew_Image = "SELECT * FROM view_camera_new_image_form WHERE product_id = #{ProID} AND color_id = #{ColorID} AND coalesce(serial,'') = coalesce(#{Serial},'') AND status = true";
 	String F_A_CameraOld_Image = "SELECT * FROM view_camera_old_image_form WHERE product_id = #{ProID} AND color_id = #{ColorID} AND coalesce(serial,'') = coalesce(#{Serial},'') AND status = true";
@@ -148,6 +152,150 @@ public interface ProductFormDAO {
 		@Result(property = "status", column = "status")
 	})
 	ArrayList<ProductForm> getAllProductForm(PageForm page);
+	
+	@Select(F_ProductNewForm)
+	@Results({
+		@Result(property = "product_id", column = "product_id"),
+		@Result(property = "product_name", column = "product_name"),
+		@Result(property = "color.color_id", column = "color_id"),
+		@Result(property = "color.color_name", column = "color_name"),
+		@Result(property = "color.color_code", column = "color_code"),
+		@Result(property = "serial", column = "serial"),
+		@Result(property = "qty", column = "qty"),
+		@Result(property = "sell_price", column = "sell_price"),
+		@Result(property = "category.category_id", column = "category_id"),
+		@Result(property = "category.category_name", column = "category_name"),
+		@Result(property = "category.description", column = "category_description"),
+		@Result(property = "category.category_camera", column = "category_camera"),
+		@Result(property = "category.category_accessory", column = "category_accessory"),
+		@Result(property = "category.status", column = "category_status"),
+		@Result(property = "brand.brand_id", column = "brand_id"),
+		@Result(property = "brand.brand_name", column = "brand_name"),
+		@Result(property = "brand.description", column = "brand_description"),
+		@Result(property = "brand.brand_camera", column = "brand_camera"),
+		@Result(property = "brand.brand_accessory", column = "brand_accessory"),
+		@Result(property = "brand.brand_status", column = "brand_status"),
+		@Result(property = "model.model_id", column = "model_id"),
+		@Result(property = "model.model_name", column = "model_name"),
+		@Result(property = "model.description", column = "model_description"),
+		@Result(property = "model.model_camera", column = "model_camera"),
+		@Result(property = "model.model_accessory", column = "model_accessory"),
+		@Result(property = "model.model_status", column = "model_status"),
+		@Result(property = "model.brand_id", column = "brand_id"),
+		@Result(property = "description", column = "description"),
+		@Result(property = "detail", column = "detail"),
+		@Result(property = "images", column = "{ProID = product_id, ColorID = color_id, Serial = serial}", many = @Many(select = "getAllProductImage")),
+		@Result(property = "status", column = "status")
+	})
+	ArrayList<ProductForm> getAllProductNewForm(ProductForm product);
+	
+	@Select(F_ProductNewFormRelated)
+	@Results({
+		@Result(property = "product_id", column = "product_id"),
+		@Result(property = "product_name", column = "product_name"),
+		@Result(property = "color.color_id", column = "color_id"),
+		@Result(property = "color.color_name", column = "color_name"),
+		@Result(property = "color.color_code", column = "color_code"),
+		@Result(property = "serial", column = "serial"),
+		@Result(property = "qty", column = "qty"),
+		@Result(property = "sell_price", column = "sell_price"),
+		@Result(property = "category.category_id", column = "category_id"),
+		@Result(property = "category.category_name", column = "category_name"),
+		@Result(property = "category.description", column = "category_description"),
+		@Result(property = "category.category_camera", column = "category_camera"),
+		@Result(property = "category.category_accessory", column = "category_accessory"),
+		@Result(property = "category.status", column = "category_status"),
+		@Result(property = "brand.brand_id", column = "brand_id"),
+		@Result(property = "brand.brand_name", column = "brand_name"),
+		@Result(property = "brand.description", column = "brand_description"),
+		@Result(property = "brand.brand_camera", column = "brand_camera"),
+		@Result(property = "brand.brand_accessory", column = "brand_accessory"),
+		@Result(property = "brand.brand_status", column = "brand_status"),
+		@Result(property = "model.model_id", column = "model_id"),
+		@Result(property = "model.model_name", column = "model_name"),
+		@Result(property = "model.description", column = "model_description"),
+		@Result(property = "model.model_camera", column = "model_camera"),
+		@Result(property = "model.model_accessory", column = "model_accessory"),
+		@Result(property = "model.model_status", column = "model_status"),
+		@Result(property = "model.brand_id", column = "brand_id"),
+		@Result(property = "description", column = "description"),
+		@Result(property = "detail", column = "detail"),
+		@Result(property = "images", column = "{ProID = product_id, ColorID = color_id, Serial = serial}", many = @Many(select = "getAllProductImage")),
+		@Result(property = "status", column = "status")
+	})
+	ArrayList<ProductForm> getAllProductNewFormRelated(ProductForm product);
+	
+	@Select(F_ProductNewForm)
+	@Results({
+		@Result(property = "product_id", column = "product_id"),
+		@Result(property = "product_name", column = "product_name"),
+		@Result(property = "color.color_id", column = "color_id"),
+		@Result(property = "color.color_name", column = "color_name"),
+		@Result(property = "color.color_code", column = "color_code"),
+		@Result(property = "serial", column = "serial"),
+		@Result(property = "qty", column = "qty"),
+		@Result(property = "sell_price", column = "sell_price"),
+		@Result(property = "category.category_id", column = "category_id"),
+		@Result(property = "category.category_name", column = "category_name"),
+		@Result(property = "category.description", column = "category_description"),
+		@Result(property = "category.category_camera", column = "category_camera"),
+		@Result(property = "category.category_accessory", column = "category_accessory"),
+		@Result(property = "category.status", column = "category_status"),
+		@Result(property = "brand.brand_id", column = "brand_id"),
+		@Result(property = "brand.brand_name", column = "brand_name"),
+		@Result(property = "brand.description", column = "brand_description"),
+		@Result(property = "brand.brand_camera", column = "brand_camera"),
+		@Result(property = "brand.brand_accessory", column = "brand_accessory"),
+		@Result(property = "brand.brand_status", column = "brand_status"),
+		@Result(property = "model.model_id", column = "model_id"),
+		@Result(property = "model.model_name", column = "model_name"),
+		@Result(property = "model.description", column = "model_description"),
+		@Result(property = "model.model_camera", column = "model_camera"),
+		@Result(property = "model.model_accessory", column = "model_accessory"),
+		@Result(property = "model.model_status", column = "model_status"),
+		@Result(property = "model.brand_id", column = "brand_id"),
+		@Result(property = "description", column = "description"),
+		@Result(property = "detail", column = "detail"),
+		@Result(property = "images", column = "{ProID = product_id, ColorID = color_id, Serial = serial}", many = @Many(select = "getAllProductImage")),
+		@Result(property = "status", column = "status")
+	})
+	ArrayList<ProductForm> getAllProductOldFormRelated(ProductForm product);
+	
+	@Select(F_ProductOldForm)
+	@Results({
+		@Result(property = "product_id", column = "product_id"),
+		@Result(property = "product_name", column = "product_name"),
+		@Result(property = "color.color_id", column = "color_id"),
+		@Result(property = "color.color_name", column = "color_name"),
+		@Result(property = "color.color_code", column = "color_code"),
+		@Result(property = "serial", column = "serial"),
+		@Result(property = "qty", column = "qty"),
+		@Result(property = "sell_price", column = "sell_price"),
+		@Result(property = "category.category_id", column = "category_id"),
+		@Result(property = "category.category_name", column = "category_name"),
+		@Result(property = "category.description", column = "category_description"),
+		@Result(property = "category.category_camera", column = "category_camera"),
+		@Result(property = "category.category_accessory", column = "category_accessory"),
+		@Result(property = "category.status", column = "category_status"),
+		@Result(property = "brand.brand_id", column = "brand_id"),
+		@Result(property = "brand.brand_name", column = "brand_name"),
+		@Result(property = "brand.description", column = "brand_description"),
+		@Result(property = "brand.brand_camera", column = "brand_camera"),
+		@Result(property = "brand.brand_accessory", column = "brand_accessory"),
+		@Result(property = "brand.brand_status", column = "brand_status"),
+		@Result(property = "model.model_id", column = "model_id"),
+		@Result(property = "model.model_name", column = "model_name"),
+		@Result(property = "model.description", column = "model_description"),
+		@Result(property = "model.model_camera", column = "model_camera"),
+		@Result(property = "model.model_accessory", column = "model_accessory"),
+		@Result(property = "model.model_status", column = "model_status"),
+		@Result(property = "model.brand_id", column = "brand_id"),
+		@Result(property = "description", column = "description"),
+		@Result(property = "detail", column = "detail"),
+		@Result(property = "images", column = "{ProID = product_id, ColorID = color_id, Serial = serial}", many = @Many(select = "getAllProductImage")),
+		@Result(property = "status", column = "status")
+	})
+	ArrayList<ProductForm> getAllProductOldForm(ProductForm product);
 	
 	@Select(CountPage_F_ProductForm)
 	int countAllProductForm(PageForm page);

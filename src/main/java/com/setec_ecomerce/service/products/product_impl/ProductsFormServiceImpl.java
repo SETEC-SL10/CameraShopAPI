@@ -3,7 +3,8 @@ package com.setec_ecomerce.service.products.product_impl;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.setec_ecomerce.repository.products.ProductFormDAO;
+
+import com.setec_ecomerce.repository.products.dao.ProductFormDAO;
 import com.setec_ecomerce.repository.products.dto.PageForm;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
 import com.setec_ecomerce.service.products.ProductsFormService;
@@ -201,6 +202,24 @@ public class ProductsFormServiceImpl implements ProductsFormService{
 			return (int) Math.ceil(productDao.countAllAccessoryNewFormColor(page) / (double)page.getLimit());
 		}else{
 			return 0;
+		}
+	}
+
+	@Override
+	public ArrayList<ProductForm> getProductForm(ProductForm product) {
+		if(product.getProduct_id().substring(1, 2).equals("O")){
+			return productDao.getAllProductOldForm(product);
+		}else{
+			return productDao.getAllProductNewForm(product);
+		}
+	}
+
+	@Override
+	public ArrayList<ProductForm> getProductFormRelated(ProductForm product) {
+		if(product.getProduct_id().substring(1, 2).equals("O")){
+			return productDao.getAllProductOldFormRelated(product);
+		}else{
+			return productDao.getAllProductNewFormRelated(getProductForm(product).get(0));
 		}
 	}
 

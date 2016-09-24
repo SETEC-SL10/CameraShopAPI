@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.setec_ecomerce.repository.products.dto.PageForm;
+import com.setec_ecomerce.repository.products.dto.ProductFormDetail;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
 import com.setec_ecomerce.repository.utils.Utils;
 import com.setec_ecomerce.service.products.NewCameraService;
+import com.setec_ecomerce.service.products.ProductFormDetailService;
 import com.setec_ecomerce.service.products.ProductsFormService;
 
 @RestController
@@ -21,6 +23,9 @@ public class ProductsController {
 
 	@Autowired
 	private ProductsFormService productService;
+	
+	@Autowired
+	private ProductFormDetailService productDetailService;
 	
 	@RequestMapping(value="/newCameraForm",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> findNewCameraForm(@RequestBody PageForm page){
@@ -98,14 +103,56 @@ public class ProductsController {
 		return productService.countPageAccessoryOldForm(page);
 	}
 	
-	@RequestMapping(value="/ProductForm",method=RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> findProductForm(@RequestBody PageForm page){
+	@RequestMapping(value="/ProductForms",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> findProductForms(@RequestBody PageForm page){
 		ArrayList<ProductForm> productForm = productService.getAllProductForm(page);
 		if( productForm == null ){
 			return Utils.respondJson("Record not found", null, HttpStatus.OK);
 		}else{
 			if(productForm.size() > 0){
 				return Utils.respondJson("Record found", productForm, HttpStatus.OK);
+			}else{
+				return Utils.respondJson("Record not found", null, HttpStatus.OK);
+			}
+		}
+	}
+	
+	@RequestMapping(value="/ProductForm",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> findProductForm(@RequestBody ProductForm product){
+		ArrayList<ProductForm> productForm = productService.getProductForm(product);
+		if( productForm == null ){
+			return Utils.respondJson("Record not found", null, HttpStatus.OK);
+		}else{
+			if(productForm.size() > 0){
+				return Utils.respondJson("Record found", productForm, HttpStatus.OK);
+			}else{
+				return Utils.respondJson("Record not found", null, HttpStatus.OK);
+			}
+		}
+	}
+	
+	@RequestMapping(value="/ProductFormRelated",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> findProductFormRelated(@RequestBody ProductForm product){
+		ArrayList<ProductForm> productForm = productService.getProductFormRelated(product);
+		if( productForm == null ){
+			return Utils.respondJson("Record not found", null, HttpStatus.OK);
+		}else{
+			if(productForm.size() > 0){
+				return Utils.respondJson("Record found", productForm, HttpStatus.OK);
+			}else{
+				return Utils.respondJson("Record not found", null, HttpStatus.OK);
+			}
+		}
+	}
+	
+	@RequestMapping(value="/ProductFormDetail",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> findProductFormDetail(@RequestBody ProductForm product){
+		ArrayList<ProductFormDetail> productFormDetail = productDetailService.getProductDetail(product);
+		if( productFormDetail == null ){
+			return Utils.respondJson("Record not found", null, HttpStatus.OK);
+		}else{
+			if(productFormDetail.size() > 0){
+				return Utils.respondJson("Record found", productFormDetail, HttpStatus.OK);
 			}else{
 				return Utils.respondJson("Record not found", null, HttpStatus.OK);
 			}

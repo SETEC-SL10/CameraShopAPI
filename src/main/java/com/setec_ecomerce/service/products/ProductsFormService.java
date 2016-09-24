@@ -17,5 +17,7 @@ public interface ProductsFormService {
 	int countPageAccessoryOldForm(PageForm page);
 	ArrayList<ProductForm> getAllAccessoryNewForm(PageForm page);
 	int countPageAccessoryNewForm(PageForm page);
+	ArrayList<ProductForm> getProductForm(ProductForm product);
+	ArrayList<ProductForm> getProductFormRelated(ProductForm product);
 	
 }
