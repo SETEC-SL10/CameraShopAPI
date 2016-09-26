@@ -44,4 +44,10 @@ public class CustomerFrontEndServiceImpl implements CustomerFrontEndService{
 		return customerDao.getAllCustomerFrontEnd();
 	}
 
+	@Override
+	public CustomerFrontEnd CustomerFrontEndLogin(CustomerFrontEnd customer) {
+		// TODO Auto-generated method stub
+		return customerDao.CustomerFrontEndLogin(customer);
+	}
+
 }

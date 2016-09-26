@@ -106,7 +106,8 @@ public interface ProductFormDAO {
 	String F_AccessoryOldForm_Color = "SELECT * FROM view_accessory_old_form WHERE LOWER(view_accessory_old_form.color_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
 	String CountPage_F_AccessoryOldForm_Color = "SELECT count(*) FROM view_accessory_old_form WHERE LOWER(view_accessory_old_form.color_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%'";
 	
-	String F_ProductNewFormRelated = "SELECT * FROM view_products_form WHERE category_name = #{category.category_name} AND brand_name = #{brand.brand_name} LIMIT 10";
+	String F_ProductNewFormRelated = "SELECT * FROM view_products_form WHERE category_name = #{category.category_name} AND brand_name = #{brand.brand_name} AND NOT product_id = #{product_id} AND coalesce(serial,'') = coalesce(#{serial},'') LIMIT 10";
+	String F_ProductOldFormRelated = "SELECT * FROM view_products_form WHERE product_id = #{product_id} AND NOT coalesce(serial,'') = coalesce(#{serial},'')";
 	String F_ProductNewForm = "SELECT * FROM view_products_form WHERE product_id = #{product_id}"; 
 	String F_ProductOldForm = "SELECT * FROM view_products_form WHERE product_id = #{product_id} AND color_id = #{color.color_id} AND coalesce(serial,'') = coalesce(#{serial},'')";
 	
@@ -225,7 +226,7 @@ public interface ProductFormDAO {
 	})
 	ArrayList<ProductForm> getAllProductNewFormRelated(ProductForm product);
 	
-	@Select(F_ProductNewForm)
+	@Select(F_ProductOldFormRelated)
 	@Results({
 		@Result(property = "product_id", column = "product_id"),
 		@Result(property = "product_name", column = "product_name"),

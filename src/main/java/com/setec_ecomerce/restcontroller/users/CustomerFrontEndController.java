@@ -23,13 +23,23 @@ public class CustomerFrontEndController {
 	@Autowired
 	private CustomerFrontEndService customerService;
 	
-	@RequestMapping(value="/CustomerFrontEnd",method=RequestMethod.POST)//
+	@RequestMapping(value="/CustomerFrontEnd",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertCustomerFrontEnd(@RequestBody CustomerFrontEnd customer){
 		customer = customerService.createCustomerFrontEnd(customer);
 		if( customer == null ){
-			return Utils.respondJson("Unsuccess Insert CustomerFrontEnd", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Insert CustomerFrontEnd", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Insert CustomerFrontEnd", customer, HttpStatus.OK);
+		}
+	}
+	
+	@RequestMapping(value="/CustomerFrontEnd/login",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> loginCustomerFrontEnd(@RequestBody CustomerFrontEnd customer){
+		customer = customerService.CustomerFrontEndLogin(customer);
+		if( customer == null ){
+			return Utils.respondJson("Unsuccess Login", null, HttpStatus.OK);
+		}else{
+			return Utils.respondJson("Success Login", customer, HttpStatus.OK);
 		}
 	}
 	
@@ -37,7 +47,7 @@ public class CustomerFrontEndController {
 	public ResponseEntity<Map<String, Object>> updateCustomerFrontEnd(@RequestBody CustomerFrontEnd customer){
 		customer = customerService.updateCustomerFrontEnd(customer);
 		if( customer == null ){
-			return Utils.respondJson("Unsuccess Update CustomerFrontEnd", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Update CustomerFrontEnd", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Update CustomerFrontEnd", customer, HttpStatus.OK);
 		}
@@ -49,7 +59,7 @@ public class CustomerFrontEndController {
 		if(result){
 			return Utils.respondJson("Success delete CustomerFrontEnd", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete CustomerFrontEnd", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess delete CustomerFrontEnd", result, HttpStatus.OK);
 		}
 	}
 	
@@ -57,7 +67,7 @@ public class CustomerFrontEndController {
 	public ResponseEntity<Map<String, Object>> findByCustomerFrontEndID(@PathVariable int id){
 		CustomerFrontEnd result = customerService.findCustomerFrontEnd(id);
 		if(result == null){
-			return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Record Found", result, HttpStatus.OK);
 		}
@@ -67,7 +77,7 @@ public class CustomerFrontEndController {
 	public ResponseEntity<Map<String, Object>> getAllCustomerFrontEnd(){
 		ArrayList<CustomerFrontEnd>  results = customerService.getAllCustomerFrontEnd();
 		if(results == null){
-			return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Record Found", results, HttpStatus.OK);
 		}

@@ -10,4 +10,5 @@ public interface CustomerFrontEndService {
 	boolean deleteCustomerFrontEnd(int id);
 	CustomerFrontEnd findCustomerFrontEnd(int id);
 	ArrayList<CustomerFrontEnd>  getAllCustomerFrontEnd();
+	CustomerFrontEnd CustomerFrontEndLogin(CustomerFrontEnd customer);
 }
