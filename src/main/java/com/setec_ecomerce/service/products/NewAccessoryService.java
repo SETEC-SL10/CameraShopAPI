@@ -11,5 +11,5 @@ public interface NewAccessoryService {
 	boolean deleteNewAccessory(String id);
 	NewAccessory findNewAccessory(String id);
 	ArrayList<NewAccessory> getAllNewAccessory(PageForm page);
-	ArrayList<ProductForm> getAllNewAccessoryForm(PageForm page);
+	public int countPageAllNewAccessory(PageForm page);
 }

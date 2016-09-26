@@ -2,7 +2,6 @@ package com.setec_ecomerce.restcontroller.products;
 
 import java.util.ArrayList;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import com.google.gson.Gson;
 import com.setec_ecomerce.repository.products.dto.PageForm;
 import com.setec_ecomerce.repository.products.dto.old_accessory.OldAccessory;
 import com.setec_ecomerce.repository.products.dto.old_accessory.OldAccessoryImage;
-import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
 import com.setec_ecomerce.repository.utils.Utils;
 import com.setec_ecomerce.service.products.OldAccessoryImageService;
 import com.setec_ecomerce.service.products.OldAccessoryService;
@@ -31,7 +29,7 @@ public class ProductAccessoryOldController {
 	@Autowired
 	private OldAccessoryImageService imageService;
 	
-	@RequestMapping(value="/oldAccessory/{id}",method=RequestMethod.GET)//
+	@RequestMapping(value="/oldAccessory/{id}",method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> findOldAccessoryByID(@PathVariable String id){
 		OldAccessory accessory = oldAccessoryService.findOldAccessory(id);
 		if( accessory == null ){
@@ -41,7 +39,7 @@ public class ProductAccessoryOldController {
 		}
 	}
 	
-	@RequestMapping(value="/oldAccessory/all",method=RequestMethod.POST)//
+	@RequestMapping(value="/oldAccessory/all",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> findAllOldAccessory(@RequestBody PageForm page){
 		ArrayList<OldAccessory> accessorys = oldAccessoryService.getAllOldAccessory(page);
 		if( accessorys == null ){
@@ -55,7 +53,12 @@ public class ProductAccessoryOldController {
 		}
 	}
 	
-	@RequestMapping(value="/oldAccessory",method=RequestMethod.POST)//
+	@RequestMapping(value="/oldAccessory/page",method=RequestMethod.POST)
+	public int countPageAllOldAccessory(@RequestBody PageForm page){
+		return oldAccessoryService.countPageAllOldAccessory(page);
+	}
+	
+	@RequestMapping(value="/oldAccessory",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertOldAccessory(@RequestBody OldAccessory accessory){
 		accessory = oldAccessoryService.createOldAccessory(accessory);
 		if( accessory == null ){
@@ -146,20 +149,6 @@ public class ProductAccessoryOldController {
 			return Utils.respondJson("Success delete Old Accessory Image", result, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Unsuccess delete Old Accessory Image", false, HttpStatus.OK);
-		}
-	}
-	
-	@RequestMapping(value="/oldAccessory/oldAccessoryForm",method=RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> findAllOldAccessoryForm(@RequestBody PageForm page){
-		ArrayList<ProductForm> accessorys = oldAccessoryService.getAllOldAccessoryForm(page);
-		if( accessorys == null ){
-			return Utils.respondJson("Record not found", null, HttpStatus.OK);
-		}else{
-			if(accessorys.size() > 0){
-				return Utils.respondJson("Record found", accessorys, HttpStatus.OK);
-			}else{
-				return Utils.respondJson("Record not found", null, HttpStatus.OK);
-			}
 		}
 	}
 }

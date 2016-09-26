@@ -34,7 +34,7 @@ public class ProductCameraOldController {
 //	@Autowired
 //	private OldCameraFormDAO oldCameraFormDao;
 	
-	@RequestMapping(value="/oldCamera/{id}",method=RequestMethod.GET)//
+	@RequestMapping(value="/oldCamera/{id}",method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> findNewCameraByID(@PathVariable String id){
 		OldCamera camera = oldCameraService.findOldCameraService(id);
 		if( camera == null ){
@@ -44,7 +44,7 @@ public class ProductCameraOldController {
 		}
 	}
 	
-	@RequestMapping(value="/oldCamera/all",method=RequestMethod.POST)//
+	@RequestMapping(value="/oldCamera/all",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> findAllNewCamera(@RequestBody PageForm page){
 		ArrayList<OldCamera> cameras = oldCameraService.getAllOldCamera(page);
 		if( cameras == null ){
@@ -58,7 +58,12 @@ public class ProductCameraOldController {
 		}
 	}
 	
-	@RequestMapping(value="/oldCamera",method=RequestMethod.POST)//
+	@RequestMapping(value="/oldCamera/page",method=RequestMethod.POST)
+	public int countPageAllOldCamera(@RequestBody PageForm page){
+		return oldCameraService.countPageAllOldCamera(page);
+	}
+	
+	@RequestMapping(value="/oldCamera",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertOldCamera(@RequestBody OldCamera cameras){
 		cameras = oldCameraService.insertOldCameraService(cameras);
 		if( cameras == null ){
@@ -149,20 +154,6 @@ public class ProductCameraOldController {
 			return Utils.respondJson("Success delete Old Camera Image", result, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Unsuccess delete Old Camera Image", false, HttpStatus.OK);
-		}
-	}
-	
-	@RequestMapping(value="/oldCamera/oldCameraForm",method=RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> findAllNewCameraForm(@RequestBody PageForm page){
-		ArrayList<ProductForm> cameras = oldCameraService.getAllOldCameraForm(page);
-		if( cameras == null ){
-			return Utils.respondJson("Record not found", null, HttpStatus.OK);
-		}else{
-			if(cameras.size() > 0){
-				return Utils.respondJson("Record found", cameras, HttpStatus.OK);
-			}else{
-				return Utils.respondJson("Record not found", null, HttpStatus.OK);
-			}
 		}
 	}
 }

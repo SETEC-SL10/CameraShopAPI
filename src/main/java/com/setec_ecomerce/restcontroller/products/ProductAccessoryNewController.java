@@ -32,7 +32,7 @@ public class ProductAccessoryNewController {
 	private NewAccessoryImageService imageService;
 	
 	
-	@RequestMapping(value="/newAccessory/{id}",method=RequestMethod.GET)//
+	@RequestMapping(value="/newAccessory/{id}",method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> findNewAccessoryByID(@PathVariable String id){
 		NewAccessory accessory = newAccessoryService.findNewAccessory(id);
 		if( accessory == null ){
@@ -56,7 +56,12 @@ public class ProductAccessoryNewController {
 		}
 	}
 	
-	@RequestMapping(value="/newAccessory",method=RequestMethod.POST)//
+	@RequestMapping(value="/newAccessory/page",method=RequestMethod.POST)
+	public int countPageAllNewAccessory(@RequestBody PageForm page){
+		return newAccessoryService.countPageAllNewAccessory(page);
+	}
+	
+	@RequestMapping(value="/newAccessory",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertNewAccessory(@RequestBody NewAccessory accessory){
 		accessory = newAccessoryService.createNewAccessory(accessory);
 		if( accessory == null ){
@@ -147,20 +152,6 @@ public class ProductAccessoryNewController {
 			return Utils.respondJson("Success delete New Accessory Image", result, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Unsuccess delete New Accessory Image", false, HttpStatus.OK);
-		}
-	}
-	
-	@RequestMapping(value="/newAccessory/newAccessoryForm",method=RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> findAllNewAccessoryForm(@RequestBody PageForm page){
-		ArrayList<ProductForm> accessorys = newAccessoryService.getAllNewAccessoryForm(page);
-		if( accessorys == null ){
-			return Utils.respondJson("Record not found", null, HttpStatus.OK);
-		}else{
-			if(accessorys.size() > 0){
-				return Utils.respondJson("Record found", accessorys, HttpStatus.OK);
-			}else{
-				return Utils.respondJson("Record not found", null, HttpStatus.OK);
-			}
 		}
 	}
 

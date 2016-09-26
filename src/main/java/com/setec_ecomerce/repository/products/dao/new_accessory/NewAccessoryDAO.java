@@ -56,13 +56,24 @@ public interface NewAccessoryDAO {
 	
 	String F_newAccesory = " SELECT * FROM table_new_accessory WHERE new_accessory_id = #{id} AND status = true";
 	
-	String S_NewAccesory = "{call view_all_accessory_new(#{conditionValue}, #{limit}, #{page})}";
-	String S_NewAccesory_Name = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.new_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_NewAccesory_Code = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.new_accessory_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_NewAccesory_Category = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_NewAccesory_Brand = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_NewAccesory_Model = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String S_NewAccesory = "SELECT ROW_NUMBER() OVER() as no, * FROM view_accessory_new ORDER BY no DESC LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_NewAccesory = "SELECT ceil( count(*)::NUMERIC / #{limit} )  FROM view_accessory_new";
 	
+	String S_NewAccesory_Name = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.new_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_NewAccesory_Name = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_new WHERE LOWER(view_accessory_new.new_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
+	String S_NewAccesory_Code = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.new_accessory_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_NewAccesory_Code = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_new WHERE LOWER(view_accessory_new.new_accessory_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
+	String S_NewAccesory_Category = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_NewAccesory_Category = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_new WHERE LOWER(view_accessory_new.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
+	String S_NewAccesory_Brand = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_NewAccesory_Brand = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_new WHERE LOWER(view_accessory_new.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+	
+	String S_NewAccesory_Model = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_NewAccesory_Model = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+
 	@Select(C_newAccesory)
 	@Options(statementType = StatementType.CALLABLE)
 	@Results({
@@ -129,7 +140,6 @@ public interface NewAccessoryDAO {
 	NewAccessory findNewAccessory(String id);
 	
 	@Select(S_NewAccesory)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "new_accessory_id", column = "new_accessory_id"),
 		@Result(property = "new_accessory_code", column = "new_accessory_code"),
@@ -165,8 +175,10 @@ public interface NewAccessoryDAO {
 	})
 	ArrayList<NewAccessory> getAllNewAccessory(PageForm page);
 	
+	@Select(Count_S_NewAccesory)
+	int countPageAllNewAccessory(PageForm page);
+	
 	@Select(S_NewAccesory_Name)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "new_accessory_id", column = "new_accessory_id"),
 		@Result(property = "new_accessory_code", column = "new_accessory_code"),
@@ -202,8 +214,10 @@ public interface NewAccessoryDAO {
 	})
 	ArrayList<NewAccessory> getAllNewAccessoryName(PageForm page);
 	
+	@Select(Count_S_NewAccesory_Name)
+	int countPageAllNewAccessoryName(PageForm page);
+	
 	@Select(S_NewAccesory_Code)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "new_accessory_id", column = "new_accessory_id"),
 		@Result(property = "new_accessory_code", column = "new_accessory_code"),
@@ -239,8 +253,10 @@ public interface NewAccessoryDAO {
 	})
 	ArrayList<NewAccessory> getAllNewAccessoryCode(PageForm page);
 	
+	@Select(Count_S_NewAccesory_Code)
+	int countPageAllNewAccessoryCode(PageForm page);
+	
 	@Select(S_NewAccesory_Category)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "new_accessory_id", column = "new_accessory_id"),
 		@Result(property = "new_accessory_code", column = "new_accessory_code"),
@@ -276,8 +292,10 @@ public interface NewAccessoryDAO {
 	})
 	ArrayList<NewAccessory> getAllNewAccessoryCategory(PageForm page);
 	
+	@Select(Count_S_NewAccesory_Category)
+	int countPageAllNewAccessoryCategory(PageForm page);
+	
 	@Select(S_NewAccesory_Brand)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "new_accessory_id", column = "new_accessory_id"),
 		@Result(property = "new_accessory_code", column = "new_accessory_code"),
@@ -313,8 +331,10 @@ public interface NewAccessoryDAO {
 	})
 	ArrayList<NewAccessory> getAllNewAccessoryBrand(PageForm page);
 	
+	@Select(Count_S_NewAccesory_Brand)
+	int countPageAllNewAccessoryBrand(PageForm page);
+	
 	@Select(S_NewAccesory_Model)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "new_accessory_id", column = "new_accessory_id"),
 		@Result(property = "new_accessory_code", column = "new_accessory_code"),
@@ -349,6 +369,9 @@ public interface NewAccessoryDAO {
 		@Result(property = "status", column = "status")
 	})
 	ArrayList<NewAccessory> getAllNewAccessoryModel(PageForm page);
+	
+	@Select(Count_S_NewAccesory_Model)
+	int countPageAllNewAccessoryModel(PageForm page);
 	
 	@Select(CategoryDAO.FindByID)
 	@Results({

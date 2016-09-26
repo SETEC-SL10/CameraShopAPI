@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.setec_ecomerce.repository.products.dao.new_camera.NewCameraDAO;
-import com.setec_ecomerce.repository.products.dao.new_camera.NewCameraFormDAO;
 import com.setec_ecomerce.repository.products.dto.PageForm;
 import com.setec_ecomerce.repository.products.dto.new_camera.NewCamera;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
@@ -17,9 +16,6 @@ public class NewCameraServiceImpl implements NewCameraService{
 	
 	@Autowired
 	private NewCameraDAO newCameraDao;
-	
-	@Autowired
-	private NewCameraFormDAO newCameraFormDao;
 	
 	@Override
 	public NewCamera insertNewCameraService(NewCamera newCamera) {
@@ -46,24 +42,37 @@ public class NewCameraServiceImpl implements NewCameraService{
 	public ArrayList<NewCamera> getAllNewCamera(PageForm page) {
 		if( page.getColumnName().equals("all")){
 			return newCameraDao.getAllNewCamera(page);
-		}else if(page.getColumnName().equals("new_camera_name")){
+		}else if(page.getColumnName().equals("name")){
 			return newCameraDao.getAllNewCameraName(page);
-		}else if(page.getColumnName().equals("new_camera_code")){
+		}else if(page.getColumnName().equals("code")){
 			return newCameraDao.getAllNewCameraCode(page);
-		}else if(page.getColumnName().equals("category_name")){
+		}else if(page.getColumnName().equals("category")){
 			return newCameraDao.getAllNewCameraCategory(page);
-		}else if(page.getColumnName().equals("brand_name")){
+		}else if(page.getColumnName().equals("brand")){
 			return newCameraDao.getAllNewCameraBrand(page);
-		}else if(page.getColumnName().equals("model_name")){
+		}else if(page.getColumnName().equals("model")){
 			return newCameraDao.getAllNewCameraModel(page);
 		}else{
 			return null;
 		}
 	}
-
+	
 	@Override
-	public ArrayList<ProductForm> getAllNewCameraForm(PageForm page) {
-		// TODO Auto-generated method stub
-		return newCameraFormDao.getAllProductForm(page);
+	public int countPageAllNewCamera(PageForm page){
+		if( page.getColumnName().equals("all")){
+			return newCameraDao.countPageAllNewCamera(page);
+		}else if(page.getColumnName().equals("name")){
+			return newCameraDao.countPageAllNewCameraName(page);
+		}else if(page.getColumnName().equals("code")){
+			return newCameraDao.countPageAllNewCameraCode(page);
+		}else if(page.getColumnName().equals("category")){
+			return newCameraDao.countPageAllNewCameraCategory(page);
+		}else if(page.getColumnName().equals("brand")){
+			return newCameraDao.countPageAllNewCameraBrand(page);
+		}else if(page.getColumnName().equals("model")){
+			return newCameraDao.countPageAllNewCameraModel(page);
+		}else{
+			return 0;
+		}
 	}
 }

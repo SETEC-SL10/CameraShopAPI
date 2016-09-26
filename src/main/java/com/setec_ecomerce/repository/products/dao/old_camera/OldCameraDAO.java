@@ -56,14 +56,24 @@ public interface OldCameraDAO {
 	String D_OldCamera = "UPDATE table_old_camera SET status = 'f' WHERE old_camera_id = #{id}";
 	
 	String F_OldCamera = "SELECT * FROM table_old_camera WHERE old_camera_id = #{id} AND status = true";
-	String S_OldCamera = "{call view_all_camera_old(#{conditionValue}, #{limit}, #{page})}";
-	String S_OldCamera_Name = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.old_camera_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldCamera_Code = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.old_camera_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldCamera_Category = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldCamera_Brand = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldCamera_Model = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-
+	String S_OldCamera = "SELECT ROW_NUMBER() OVER() as no, * FROM view_camera_old ORDER BY no DESC LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldCamera = "SELECT ceil( count(*)::NUMERIC / #{limit} )  FROM view_camera_old";
 	
+	String S_OldCamera_Name = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.old_camera_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldCamera_Name = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_camera_old WHERE LOWER(view_camera_old.old_camera_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+	
+	String S_OldCamera_Code = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.old_camera_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldCamera_Code = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_camera_old WHERE LOWER(view_camera_old.old_camera_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+	
+	String S_OldCamera_Category = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldCamera_Category = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_camera_old WHERE LOWER(view_camera_old.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+	
+	String S_OldCamera_Brand = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldCamera_Brand = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_camera_old WHERE LOWER(view_camera_old.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+	
+	String S_OldCamera_Model = "SELECT * FROM view_camera_old WHERE LOWER(view_camera_old.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldCamera_Model = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_camera_old WHERE LOWER(view_camera_old.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
 	@Select(C_OldCamer)
 	@Options(statementType = StatementType.CALLABLE)
 	@Results({
@@ -131,7 +141,6 @@ public interface OldCameraDAO {
 	OldCamera findOldCameraService(String id);
 	
 	@Select(S_OldCamera)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_camera_id", column = "old_camera_id"),
 		@Result(property = "old_camera_code", column = "old_camera_code"),
@@ -168,8 +177,10 @@ public interface OldCameraDAO {
 	})
 	ArrayList<OldCamera> getAllOldCamera(PageForm page);
 	
+	@Select(Count_S_OldCamera)
+	int countPageAllOldCamera(PageForm page);
+	
 	@Select(S_OldCamera_Name)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_camera_id", column = "old_camera_id"),
 		@Result(property = "old_camera_code", column = "old_camera_code"),
@@ -206,8 +217,10 @@ public interface OldCameraDAO {
 	})
 	ArrayList<OldCamera> getAllOldCameraName(PageForm page);
 	
+	@Select(Count_S_OldCamera_Name)
+	int countPageAllOldCameraName(PageForm page);
+	
 	@Select(S_OldCamera_Code)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_camera_id", column = "old_camera_id"),
 		@Result(property = "old_camera_code", column = "old_camera_code"),
@@ -244,8 +257,10 @@ public interface OldCameraDAO {
 	})
 	ArrayList<OldCamera> getAllOldCameraCode(PageForm page);
 	
+	@Select(Count_S_OldCamera_Code)
+	int countPageAllOldCameraCode(PageForm page);
+	
 	@Select(S_OldCamera_Category)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_camera_id", column = "old_camera_id"),
 		@Result(property = "old_camera_code", column = "old_camera_code"),
@@ -282,8 +297,10 @@ public interface OldCameraDAO {
 	})
 	ArrayList<OldCamera> getAllOldCameraCategory(PageForm page);
 	
+	@Select(Count_S_OldCamera_Category)
+	int countPageAllOldCameraCategory(PageForm page);
+	
 	@Select(S_OldCamera_Brand)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_camera_id", column = "old_camera_id"),
 		@Result(property = "old_camera_code", column = "old_camera_code"),
@@ -320,8 +337,10 @@ public interface OldCameraDAO {
 	})
 	ArrayList<OldCamera> getAllOldCameraBrand(PageForm page);
 	
+	@Select(Count_S_OldCamera_Brand)
+	int countPageAllOldCameraBrand(PageForm page);
+	
 	@Select(S_OldCamera_Model)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_camera_id", column = "old_camera_id"),
 		@Result(property = "old_camera_code", column = "old_camera_code"),
@@ -357,6 +376,9 @@ public interface OldCameraDAO {
 		@Result(property = "status", column = "status")
 	})
 	ArrayList<OldCamera> getAllOldCameraModel(PageForm page);
+	
+	@Select(Count_S_OldCamera_Model)
+	int countPageAllOldCameraModel(PageForm page);
 	
 	@Select(CategoryDAO.FindByID)
 	@Results({

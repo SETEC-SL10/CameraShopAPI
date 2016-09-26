@@ -21,7 +21,6 @@ import com.setec_ecomerce.repository.products.dto.old_accessory.OldAccessory;
 @Repository
 public interface OldAccessoryDAO {
 	String C_OldAccessory = "{ call \"insertToOldAccessory\"("
-							//+ "OUT accessory_id character varying,"
 							+ "#{old_accessory_code},"
 							+ "#{old_accessory_name},"
 							+ "#{province_ship_price},"
@@ -56,13 +55,24 @@ public interface OldAccessoryDAO {
 
 	String R_OldAccessory = "SELECT old_accessory_id, old_accessory_code, old_accessory_name, description, qty_in_stock, available_stock, sell_price, province_ship_price, local_ship_price, type_id, category_id, brand_id, model_id, detail, img_url, created_date, status FROM table_old_accessory  WHERE old_accessory_id = #{id} AND status = true";
 	
-	String S_OldAccessory = "{call view_all_accessory_old(#{conditionValue}, #{limit}, #{page})}";
-	String S_OldAccessory_Name = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.old_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldAccessory_Code = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.old_accessory_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldAccessory_Category = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldAccessory_Brand = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
-	String S_OldAccessory_Model = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_new.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String S_OldAccessory = "SELECT ROW_NUMBER() OVER() as no, * FROM view_accessory_old ORDER BY no DESC LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldAccessory = "SELECT ceil( count(*)::NUMERIC / #{limit} )  FROM view_accessory_old";
 	
+	String S_OldAccessory_Name = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.old_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldAccessory_Name = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_old WHERE LOWER(view_accessory_old.old_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
+	String S_OldAccessory_Code = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.old_accessory_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldAccessory_Code = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_old WHERE LOWER(view_accessory_old.old_accessory_code) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
+	String S_OldAccessory_Category = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldAccessory_Category = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_old WHERE LOWER(view_accessory_old.category_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
+	String S_OldAccessory_Brand = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldAccessory_Brand = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_old WHERE LOWER(view_accessory_old.brand_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
+	String S_OldAccessory_Model = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_new.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String Count_S_OldAccessory_Model = "SELECT ceil( count(*)::NUMERIC / #{limit} ) FROM view_accessory_old WHERE LOWER(view_accessory_new.model_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' ";
+
 	@Select(C_OldAccessory)
 	@Options(statementType = StatementType.CALLABLE)
 	@Results({
@@ -124,7 +134,6 @@ public interface OldAccessoryDAO {
 	OldAccessory findOldAccessory(String id);
 	
 	@Select(S_OldAccessory)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_accessory_id", column = "old_accessory_id"),
 		@Result(property = "old_accessory_code", column = "old_accessory_code"),
@@ -160,8 +169,10 @@ public interface OldAccessoryDAO {
 	})
 	ArrayList<OldAccessory> getAllOldAccessory(PageForm page);
 	
+	@Select(Count_S_OldAccessory)
+	int countPageAllOldAccessory(PageForm page);
+	
 	@Select(S_OldAccessory_Name)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_accessory_id", column = "old_accessory_id"),
 		@Result(property = "old_accessory_code", column = "old_accessory_code"),
@@ -197,8 +208,10 @@ public interface OldAccessoryDAO {
 	})
 	ArrayList<OldAccessory> getAllOldAccessoryName(PageForm page);
 	
+	@Select(Count_S_OldAccessory_Name)
+	int countPageAllOldAccessoryName(PageForm page);
+	
 	@Select(S_OldAccessory_Code)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_accessory_id", column = "old_accessory_id"),
 		@Result(property = "old_accessory_code", column = "old_accessory_code"),
@@ -234,8 +247,10 @@ public interface OldAccessoryDAO {
 	})
 	ArrayList<OldAccessory> getAllOldAccessoryCode(PageForm page);
 	
+	@Select(Count_S_OldAccessory_Code)
+	int countPageAllOldAccessoryCode(PageForm page);
+	
 	@Select(S_OldAccessory_Category)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_accessory_id", column = "old_accessory_id"),
 		@Result(property = "old_accessory_code", column = "old_accessory_code"),
@@ -271,8 +286,10 @@ public interface OldAccessoryDAO {
 	})
 	ArrayList<OldAccessory> getAllOldAccessoryCategory(PageForm page);
 	
+	@Select(Count_S_OldAccessory_Category)
+	int countPageAllOldAccessoryCategory(PageForm page);
+	
 	@Select(S_OldAccessory_Brand)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_accessory_id", column = "old_accessory_id"),
 		@Result(property = "old_accessory_code", column = "old_accessory_code"),
@@ -308,8 +325,10 @@ public interface OldAccessoryDAO {
 	})
 	ArrayList<OldAccessory> getAllOldAccessoryBrand(PageForm page);
 	
+	@Select(Count_S_OldAccessory_Brand)
+	int countPageAllOldAccessoryBrand(PageForm page);
+	
 	@Select(S_OldAccessory_Model)
-	@Options(statementType = StatementType.CALLABLE)
 	@Results({
 		@Result(property = "old_accessory_id", column = "old_accessory_id"),
 		@Result(property = "old_accessory_code", column = "old_accessory_code"),
@@ -344,6 +363,9 @@ public interface OldAccessoryDAO {
 		@Result(property = "status", column = "status")
 	})
 	ArrayList<OldAccessory> getAllOldAccessoryModel(PageForm page);
+	
+	@Select(Count_S_OldAccessory_Model)
+	int countPageAllOldAccessoryModel(PageForm page);
 	
 	@Select(CategoryDAO.FindByID)
 	@Results({

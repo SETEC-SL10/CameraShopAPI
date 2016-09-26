@@ -12,5 +12,5 @@ public interface OldCameraService {
 	boolean deletedOldCameraService(String id);
 	OldCamera findOldCameraService(String id);
 	ArrayList<OldCamera> getAllOldCamera(PageForm page);
-	ArrayList<ProductForm> getAllOldCameraForm(PageForm page);
+	public int countPageAllOldCamera(PageForm page);
 }

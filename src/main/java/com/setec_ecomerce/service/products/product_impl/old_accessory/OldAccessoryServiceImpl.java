@@ -1,12 +1,9 @@
 package com.setec_ecomerce.service.products.product_impl.old_accessory;
 
 import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.setec_ecomerce.repository.products.dao.old_accessory.OldAccessoryDAO;
-import com.setec_ecomerce.repository.products.dao.old_accessory.OldAccessoryFormDAO;
 import com.setec_ecomerce.repository.products.dto.PageForm;
 import com.setec_ecomerce.repository.products.dto.old_accessory.OldAccessory;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
@@ -17,9 +14,7 @@ public class OldAccessoryServiceImpl implements OldAccessoryService{
 	
 	@Autowired
 	OldAccessoryDAO oldAccessoryDao;
-
-	@Autowired
-	OldAccessoryFormDAO oldAccessoryFomrDao;
+	
 	@Override
 	public OldAccessory createOldAccessory(OldAccessory oldAccessory) {
 		// TODO Auto-generated method stub
@@ -48,25 +43,37 @@ public class OldAccessoryServiceImpl implements OldAccessoryService{
 	public ArrayList<OldAccessory> getAllOldAccessory(PageForm page) {
 		if( page.getColumnName().equals("all")){
 			return oldAccessoryDao.getAllOldAccessory(page);
-		}else if(page.getColumnName().equals("old_accessory_name")){
+		}else if(page.getColumnName().equals("name")){
 			return oldAccessoryDao.getAllOldAccessoryName(page);
-		}else if(page.getColumnName().equals("old_accessory_code")){
+		}else if(page.getColumnName().equals("code")){
 			return oldAccessoryDao.getAllOldAccessoryCode(page);
-		}else if(page.getColumnName().equals("category_name")){
+		}else if(page.getColumnName().equals("category")){
 			return oldAccessoryDao.getAllOldAccessoryCategory(page);
-		}else if(page.getColumnName().equals("brand_name")){
+		}else if(page.getColumnName().equals("brand")){
 			return oldAccessoryDao.getAllOldAccessoryBrand(page);
-		}else if(page.getColumnName().equals("model_name")){
+		}else if(page.getColumnName().equals("model")){
 			return oldAccessoryDao.getAllOldAccessoryModel(page);
 		}else{
 			return null;
 		}
 	}
-
+	
 	@Override
-	public ArrayList<ProductForm> getAllOldAccessoryForm(PageForm page) {
-		// TODO Auto-generated method stub
-		return oldAccessoryFomrDao.getAllProductForm(page);
+	public int countPageAllOldAccessory(PageForm page){
+		if( page.getColumnName().equals("all")){
+			return oldAccessoryDao.countPageAllOldAccessory(page);
+		}else if(page.getColumnName().equals("name")){
+			return oldAccessoryDao.countPageAllOldAccessoryName(page);
+		}else if(page.getColumnName().equals("code")){
+			return oldAccessoryDao.countPageAllOldAccessoryCode(page);
+		}else if(page.getColumnName().equals("category")){
+			return oldAccessoryDao.countPageAllOldAccessoryCategory(page);
+		}else if(page.getColumnName().equals("brand")){
+			return oldAccessoryDao.countPageAllOldAccessoryBrand(page);
+		}else if(page.getColumnName().equals("model")){
+			return oldAccessoryDao.countPageAllOldAccessoryModel(page);
+		}else{
+			return 0;
+		}
 	}
-
 }

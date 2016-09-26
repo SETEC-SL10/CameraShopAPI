@@ -31,7 +31,7 @@ public class ProductCameraNewController {
 	@Autowired
 	private NewCameraImageService imageService;
 	
-	@RequestMapping(value="/newCamera/{id}",method=RequestMethod.GET)//
+	@RequestMapping(value="/newCamera/{id}",method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> findNewCameraByID(@PathVariable String id){
 		NewCamera camera = newCameraService.findNewCameraService(id);
 		if( camera == null ){
@@ -41,7 +41,7 @@ public class ProductCameraNewController {
 		}
 	}
 	
-	@RequestMapping(value="/newCamera/all",method=RequestMethod.POST)//
+	@RequestMapping(value="/newCamera/all",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> findAllNewCamera(@RequestBody PageForm page){
 		
 		ArrayList<NewCamera> cameras = newCameraService.getAllNewCamera(page);
@@ -56,7 +56,12 @@ public class ProductCameraNewController {
 		}
 	}
 	
-	@RequestMapping(value="/newCamera",method=RequestMethod.POST)//
+	@RequestMapping(value="/newCamera/page",method=RequestMethod.POST)
+	public int countPageAllNewCamera(@RequestBody PageForm page){
+		return newCameraService.countPageAllNewCamera(page);
+	}
+	
+	@RequestMapping(value="/newCamera",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertNewCamera(@RequestBody NewCamera cameras){
 		cameras = newCameraService.insertNewCameraService(cameras);
 		if( cameras == null ){
