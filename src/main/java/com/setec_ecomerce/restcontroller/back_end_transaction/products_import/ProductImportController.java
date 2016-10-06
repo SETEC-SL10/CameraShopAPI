@@ -8,8 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.setec_ecomerce.repository.back_end_transaction.products_import.dao.ProductImportFormDAO;
+import com.setec_ecomerce.repository.back_end_transaction.products_import.dto.ProductImportForm;
 import com.setec_ecomerce.repository.back_end_transaction.products_import.dto.new_accessory.AccessoryNewImportForm;
 import com.setec_ecomerce.repository.back_end_transaction.products_import.dto.new_camera.CameraNewImportForm;
 import com.setec_ecomerce.repository.back_end_transaction.products_import.dto.old_accessory.AccessoryOldImportForm;
@@ -36,11 +39,24 @@ public class ProductImportController {
 	@Autowired
 	private CameraOldImportFormService importCameraOldService;
 	
+	@Autowired
+	private ProductImportFormDAO importProductFormService;
+	
+	@RequestMapping(value="/product",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> insertImportProduct(@RequestParam String data){
+		return Utils.respondJson(importProductFormService.insertImport(data), null, HttpStatus.OK);
+		/*if( result ){
+			return Utils.respondJson("Unsuccess Import NewAccessory", null, HttpStatus.OK);
+		}else{
+			return Utils.respondJson("Success Import NewAccessory", null, HttpStatus.OK);
+		}*/
+	}
+	
 	@RequestMapping(value="/newAccessory",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertNewAccessoryImport(@RequestBody AccessoryNewImportForm importForm){
 		boolean result = importAccessoryNewService.insertAccessoryNewImportForm(importForm);
 		if( result ){
-			return Utils.respondJson("Unsuccess Import NewAccessory", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Import NewAccessory", result, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Import NewAccessory", result, HttpStatus.OK);
 		}
@@ -50,7 +66,7 @@ public class ProductImportController {
 	public ResponseEntity<Map<String, Object>> insertOldAccessoryImport(@RequestBody AccessoryOldImportForm importForm){
 		boolean result = importAccessoryOldService.insertToAccessoryOldImportForm(importForm);
 		if( result ){
-			return Utils.respondJson("Unsuccess Import OldAccessory", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Import OldAccessory", result, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Import OldAccessory", result, HttpStatus.OK);
 		}
@@ -62,7 +78,7 @@ public class ProductImportController {
 		if( result ){
 			return Utils.respondJson("Success Import NewCamera", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess Import NewCamera", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Import NewCamera", result, HttpStatus.OK);
 		}
 	}
 	
@@ -72,7 +88,7 @@ public class ProductImportController {
 		if( result ){
 			return Utils.respondJson("Success Import OldCamera", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess Import OldCamera", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Import OldCamera", result, HttpStatus.OK);
 		}
 	}
 }

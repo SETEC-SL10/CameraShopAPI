@@ -65,9 +65,9 @@ public class ProductCameraNewController {
 	public ResponseEntity<Map<String, Object>> insertNewCamera(@RequestBody NewCamera cameras){
 		cameras = newCameraService.insertNewCameraService(cameras);
 		if( cameras == null ){
-			return Utils.respondJson("Unsuccess Insert New Camera", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert New Camera", cameras, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", cameras, HttpStatus.OK);
 		}
 	}
 	
@@ -75,9 +75,9 @@ public class ProductCameraNewController {
 	public ResponseEntity<Map<String, Object>> updateNewCamera(@RequestBody NewCamera cameras){
 		cameras = newCameraService.updateNewCameraService(cameras);
 		if( cameras == null ){
-			return Utils.respondJson("Unsuccess Insert New Camera", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert New Camera", cameras, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", cameras, HttpStatus.OK);
 		}
 	}
 	
@@ -85,9 +85,9 @@ public class ProductCameraNewController {
 	public ResponseEntity<Map<String, Object>> deleteNewCamera(@PathVariable String id){
 		boolean result = newCameraService.deletedNewCameraService(id);
 		if(result){
-			return Utils.respondJson("Success delete New Camera", result, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete New Camera", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}
 	}
 	
@@ -100,9 +100,9 @@ public class ProductCameraNewController {
 		NewCameraImage image = json.fromJson(data, NewCameraImage.class);
 		image = imageService.insertNewCameraImage(image, file);
 		if(image == null){
-			return Utils.respondJson("Unsuccess Insert New Camera Image", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert New Camera Image", image, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
 		}
 	}
 	
@@ -110,14 +110,13 @@ public class ProductCameraNewController {
 	public ResponseEntity<Map<String, Object>> updateNewCameraImage(
 			@RequestParam(value = "file", required=true) MultipartFile file,
 			@RequestParam(value = "data") String data){
-	
 		Gson json = new Gson();
 		NewCameraImage image = json.fromJson(data, NewCameraImage.class);
 		image = imageService.updateNewCameraImage(image, file);
 		if(image == null){
-			return Utils.respondJson("Unsuccess Update New Camera Image", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Update New Camera Image", image, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
 		}
 	}
 	
@@ -149,9 +148,9 @@ public class ProductCameraNewController {
 	public ResponseEntity<Map<String, Object>> deleteNewCameraImage(@PathVariable int id){
 		boolean result = imageService.deleteNewCameraImage(id);
 		if(result){
-			return Utils.respondJson("Success delete New Camera Image", result, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete New Camera Image", false, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", false, HttpStatus.OK);
 		}
 	}
 	

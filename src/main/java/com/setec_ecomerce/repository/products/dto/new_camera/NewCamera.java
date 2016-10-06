@@ -2,43 +2,47 @@ package com.setec_ecomerce.repository.products.dto.new_camera;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.setec_ecomerce.repository.products.dto.brand.Brand;
 import com.setec_ecomerce.repository.products.dto.category.Category;
 import com.setec_ecomerce.repository.products.dto.model.Model;
 
 public class NewCamera {
-	
+	@JsonProperty("ID")
 	private String new_camera_id;
-	
+	@JsonProperty("CODE")
 	private String new_camera_code;
-	
+	@JsonProperty("NAME")
 	private String new_camera_name;
-	
+	@JsonProperty("QTY_STOCK")
 	private int qty_in_stock;
-	
+	@JsonProperty("AVAILABLE_STOCK")
 	private int available_stock;
-	
+	@JsonProperty("WARRANTY")
 	private Timestamp warranty;
-	
+	@JsonProperty("PROVINCE_SHIP_PRICE")
 	private BigDecimal province_ship_price;
-	
+	@JsonProperty("LOCAL_SHIP_PRICE")
 	private BigDecimal local_ship_price;
-	
+	@JsonProperty("TYPE_ID")
 	private int type_id;
-	
+	@JsonProperty("CATEGORY")
 	private Category category;
-	
+	@JsonProperty("BRAND")
 	private Brand brand;
-	
+	@JsonProperty("MODEL")
 	private Model model;
-	
+	@JsonProperty("DESCRIPTION")
 	private String description;
-	
+	@JsonProperty("IMG_URL")
 	private String img_url;
-	
+	@JsonProperty("DETAIL")
 	private String detail;
-	
+	@JsonProperty("CREATED_DATE")
+	private Timestamp created_date;
+	@JsonProperty("STATUS")
 	private boolean status;
 	
 	public NewCamera() {
@@ -171,6 +175,16 @@ public class NewCamera {
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+
+	public Timestamp getCreated_date() {
+		return created_date;
+	}
+
+
+	public void setCreated_date(Timestamp created_date) {
+		this.created_date = created_date;
 	}
 	
 }

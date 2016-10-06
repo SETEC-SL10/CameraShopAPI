@@ -65,9 +65,9 @@ public class ProductAccessoryNewController {
 	public ResponseEntity<Map<String, Object>> insertNewAccessory(@RequestBody NewAccessory accessory){
 		accessory = newAccessoryService.createNewAccessory(accessory);
 		if( accessory == null ){
-			return Utils.respondJson("Unsuccess Insert NewAccessory", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert NewAccessory", accessory, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", accessory, HttpStatus.OK);
 		}
 	}
 	
@@ -75,9 +75,9 @@ public class ProductAccessoryNewController {
 	public ResponseEntity<Map<String, Object>> updateNewAccessory(@RequestBody NewAccessory accessory){
 		accessory = newAccessoryService.updateNewAccessory(accessory);
 		if( accessory == null ){
-			return Utils.respondJson("Unsuccess Insert NewAccessory", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert NewAccessory", accessory, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", accessory, HttpStatus.OK);
 		}
 	}
 	
@@ -85,9 +85,9 @@ public class ProductAccessoryNewController {
 	public ResponseEntity<Map<String, Object>> deleteNewAccessory(@PathVariable String id){
 		boolean result = newAccessoryService.deleteNewAccessory(id);
 		if(result){
-			return Utils.respondJson("Success delete NewAccessory", result, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete NewAccessory", result, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", result, HttpStatus.OK);
 		}
 	}
 	
@@ -97,12 +97,14 @@ public class ProductAccessoryNewController {
 			@RequestParam(value = "data") String data){
 	
 		Gson json = new Gson();
+/*		Gson jj = new Gson();
+		jj.toJson(data);*/
 		NewAccessoryImage image = json.fromJson(data, NewAccessoryImage.class);
 		image = imageService.insertNewAccessoryImage(image, file);
 		if(image == null){
-			return Utils.respondJson("Unsuccess Insert New Accessory Image", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert New Accessory Image", image, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
 		}
 	}
 	
@@ -115,9 +117,9 @@ public class ProductAccessoryNewController {
 		NewAccessoryImage image = json.fromJson(data, NewAccessoryImage.class);
 		image = imageService.updateNewAccessoryImage(image, file);
 		if(image == null){
-			return Utils.respondJson("Unsuccess Update New Accessory Image", null, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Update New Accessory Image", image, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
 		}
 	}
 	
@@ -149,9 +151,9 @@ public class ProductAccessoryNewController {
 	public ResponseEntity<Map<String, Object>> deleteNewAccessoryImage(@PathVariable int id){
 		boolean result = imageService.deleteNewAccessoryImage(id);
 		if(result){
-			return Utils.respondJson("Success delete New Accessory Image", result, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete New Accessory Image", false, HttpStatus.OK);
+			return Utils.respondJson("UNSUCCESS", false, HttpStatus.OK);
 		}
 	}
 
