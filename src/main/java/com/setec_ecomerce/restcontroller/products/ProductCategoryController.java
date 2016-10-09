@@ -26,7 +26,7 @@ public class ProductCategoryController {
 	public ResponseEntity<Map<String, Object>> insertCategory(@RequestBody Category category){
 		category = categoryService.insertCategory(category);
 		if( category == null ){
-			return Utils.respondJson("Unsuccess Insert Category", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Insert Category", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Insert Category", category, HttpStatus.OK);
 		}
@@ -36,7 +36,7 @@ public class ProductCategoryController {
 	public ResponseEntity<Map<String, Object>> updateCategory(@RequestBody Category category){
 		category = categoryService.updateCategory(category);
 		if( category == null ){
-			return Utils.respondJson("Unsuccess Update Category", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Update Category", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Update Category", category, HttpStatus.OK);
 		}
@@ -48,7 +48,7 @@ public class ProductCategoryController {
 		if(result){
 			return Utils.respondJson("Success delete Category", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete Category", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess delete Category", result, HttpStatus.OK);
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class ProductCategoryController {
 	public ResponseEntity<Map<String, Object>> findByCategoryID(@PathVariable int id){
 		Category result = categoryService.findCategory(id);
 		if(result == null){
-			return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Record Found", result, HttpStatus.OK);
 		}
@@ -66,12 +66,12 @@ public class ProductCategoryController {
 	public ResponseEntity<Map<String, Object>> findAllCategorys(){
 		ArrayList<Category> result = categoryService.findAllCategorys();
 		if(result == null){
-			return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 		}else{
 			if(result.size() > 0){
 				return Utils.respondJson("Record Found", result, HttpStatus.OK);
 			}else{
-				return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+				return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 			}
 		}
 	}
@@ -85,7 +85,7 @@ public class ProductCategoryController {
 			result = categoryService.findCategoryByAccessory(1);
 		}
 		if(result == null){
-			return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Record Found", result, HttpStatus.OK);
 		}

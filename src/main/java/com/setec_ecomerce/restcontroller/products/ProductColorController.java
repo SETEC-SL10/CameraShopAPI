@@ -26,7 +26,7 @@ public class ProductColorController {
 	public ResponseEntity<Map<String, Object>> insertColor(@RequestBody Color color){
 		color = colorService.insertColor(color);
 		if( color == null ){
-			return Utils.respondJson("Unsuccess Insert Color", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Insert Color", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Insert Color", color, HttpStatus.OK);
 		}
@@ -36,7 +36,7 @@ public class ProductColorController {
 	public ResponseEntity<Map<String, Object>> updateColor(@RequestBody Color color){
 		color = colorService.updateColor(color);
 		if( color == null ){
-			return Utils.respondJson("Unsuccess Update Color", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess Update Color", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Success Update Color", color, HttpStatus.OK);
 		}
@@ -48,7 +48,7 @@ public class ProductColorController {
 		if(result){
 			return Utils.respondJson("Success delete Color", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete Color", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("Unsuccess delete Color", result, HttpStatus.OK);
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class ProductColorController {
 	public ResponseEntity<Map<String, Object>> findByColorID(@PathVariable int id){
 		Color color = colorService.findColor(id);
 		if(color == null){
-			return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Record Found", color, HttpStatus.OK);
 		}
@@ -66,12 +66,12 @@ public class ProductColorController {
 	public ResponseEntity<Map<String, Object>> findColors(){
 		ArrayList<Color> result = colorService.findColors();
 		if(result == null){
-			return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 		}else{
 			if(result.size() > 0){
 				return Utils.respondJson("Record Found", result, HttpStatus.OK);
 			}else{
-				return Utils.respondJson("Record Not Found", null, HttpStatus.CONFLICT);
+				return Utils.respondJson("Record Not Found", null, HttpStatus.OK);
 			}
 			
 		}
