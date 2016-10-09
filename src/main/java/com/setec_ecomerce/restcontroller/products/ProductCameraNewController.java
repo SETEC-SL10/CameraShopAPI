@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.setec_ecomerce.repository.products.dto.PageForm;
+import com.setec_ecomerce.repository.products.dto.color.Color;
 import com.setec_ecomerce.repository.products.dto.new_camera.NewCamera;
 import com.setec_ecomerce.repository.products.dto.new_camera.NewCameraImage;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
@@ -91,13 +93,39 @@ public class ProductCameraNewController {
 		}
 	}
 	
-	@RequestMapping(value="/newCamera/newCameraImage",method=RequestMethod.POST)
+	/*@RequestMapping(value="/newCamera/newCameraImage",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertNewCameraImage(
 			@RequestParam(value = "file", required=true) MultipartFile file,
 			@RequestParam(value = "data") String data){
-	
+		System.out.println(data);
 		Gson json = new Gson();
 		NewCameraImage image = json.fromJson(data, NewCameraImage.class);
+		System.out.println("Controller"+image.getNew_camera_id());
+		image = imageService.insertNewCameraImage(image, file);
+		if(image == null){
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
+		}else{
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
+		}
+	}*/
+	@RequestMapping(value="/newCamera/newCameraImage",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> insertNewCameraImage(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("PRO_ID") String PRO_ID,
+			@RequestParam("COLOR_ID") String COLOR_ID){
+		NewCameraImage image = new NewCameraImage();
+		image.setNew_camera_id(PRO_ID);
+		Color color = new Color();
+		int color_id = -1;
+		try {
+			color_id = Integer.valueOf(COLOR_ID);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		color.setColor_id(color_id);
+		image.setColor(color);
+		image.setStatus(true);
+		//System.out.println(image.getNew_camera_id());
 		image = imageService.insertNewCameraImage(image, file);
 		if(image == null){
 			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
@@ -130,7 +158,7 @@ public class ProductCameraNewController {
 		}
 	}
 	
-	@RequestMapping(value="/newCamera/newCameraImage/Camera/{id}",method=RequestMethod.GET)
+	@RequestMapping(value="/newCamera/newCameraImage/Camera/{pro_id}",method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> findNewCameraImageByCameraID(@PathVariable String pro_id){
 		ArrayList<NewCameraImage> image = imageService.getAllNewCameraImage(pro_id);
 		if( image == null ){

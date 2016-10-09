@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.setec_ecomerce.repository.products.dto.PageForm;
+import com.setec_ecomerce.repository.products.dto.color.Color;
+import com.setec_ecomerce.repository.products.dto.new_camera.NewCameraImage;
 import com.setec_ecomerce.repository.products.dto.old_camera.OldCamera;
 import com.setec_ecomerce.repository.products.dto.old_camera.OldCameraImage;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
@@ -93,13 +95,41 @@ public class ProductCameraOldController {
 		}
 	}
 	
-	@RequestMapping(value="/oldCamera/oldCameraImage",method=RequestMethod.POST)
+/*	@RequestMapping(value="/oldCamera/oldCameraImage",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertOldCameraImage(
 			@RequestParam(value = "file", required=true) MultipartFile file,
 			@RequestParam(value = "data") String data){
 	
 		Gson json = new Gson();
 		OldCameraImage image = json.fromJson(data, OldCameraImage.class);
+		image = imageService.insertOldCameraImage(image, file);
+		if(image == null){
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
+		}else{
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
+		}
+	}*/
+	
+	@RequestMapping(value="/oldCamera/oldCameraImage",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> insertOldCameraImage(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("PRO_ID") String PRO_ID,
+			@RequestParam("PRO_SN") String PRO_SN,
+			@RequestParam("COLOR_ID") String COLOR_ID){
+		OldCameraImage image = new OldCameraImage();
+		image.setOld_camera_id(PRO_ID);
+		image.setOld_camera_serial(PRO_SN);
+		Color color = new Color();
+		int color_id = -1;
+		try {
+			color_id = Integer.valueOf(COLOR_ID);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		color.setColor_id(color_id);
+		image.setColor(color);
+		image.setStatus(true);
+		//System.out.println(image.getNew_camera_id());
 		image = imageService.insertOldCameraImage(image, file);
 		if(image == null){
 			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
@@ -133,7 +163,7 @@ public class ProductCameraOldController {
 		}
 	}
 
-	@RequestMapping(value="/oldCamera/oldCameraImage/Camera/{id}",method=RequestMethod.GET)
+	@RequestMapping(value="/oldCamera/oldCameraImage/Camera/{serial}",method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> findOldCameraImageBySerial(@PathVariable String serial){
 		ArrayList<OldCameraImage> image = imageService.getAllOldCameraImage(serial);
 		if( image == null ){

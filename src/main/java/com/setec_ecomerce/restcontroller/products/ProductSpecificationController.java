@@ -27,7 +27,7 @@ public class ProductSpecificationController {
 	public ResponseEntity<Map<String, Object>> findSpecificationByID(@PathVariable int id){
 		Specification spec = specificationService.findSpecification(id);
 		if( spec == null ){
-			return Utils.respondJson("Record not found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record not found", null, HttpStatus.OK);
 		}else{
 			return Utils.respondJson("Record found", spec, HttpStatus.OK);
 		}
@@ -37,12 +37,12 @@ public class ProductSpecificationController {
 	public ResponseEntity<Map<String, Object>> findSpecificationByPro_ID(@PathVariable String pro_id){
 		ArrayList<Specification> specs = specificationService.getSpecificationByPro_ID(pro_id);
 		if( specs == null ){
-			return Utils.respondJson("Record not found", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("Record not found", null, HttpStatus.OK);
 		}else{
 			if(specs.size() > 0){
 				return Utils.respondJson("Record found", specs, HttpStatus.OK);
 			}else{
-				return Utils.respondJson("Record not found", null, HttpStatus.CONFLICT);
+				return Utils.respondJson("Record not found", null, HttpStatus.OK);
 			}
 		}
 	}
@@ -51,9 +51,9 @@ public class ProductSpecificationController {
 	public ResponseEntity<Map<String, Object>> insertSpecification(@RequestBody Specification spec){
 		spec = specificationService.createSpecification(spec);
 		if( spec == null ){
-			return Utils.respondJson("Unsuccess Insert Specification", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert Specification", spec, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", spec, HttpStatus.OK);
 		}
 	}
 	
@@ -61,9 +61,9 @@ public class ProductSpecificationController {
 	public ResponseEntity<Map<String, Object>> updateSpecification(@RequestBody Specification spec){
 		spec = specificationService.updateSpecification(spec);
 		if( spec == null ){
-			return Utils.respondJson("Unsuccess Insert Specification", null, HttpStatus.CONFLICT);
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Success Insert Specification", spec, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", spec, HttpStatus.OK);
 		}
 	}
 	
@@ -71,9 +71,9 @@ public class ProductSpecificationController {
 	public ResponseEntity<Map<String, Object>> deleteSpecification(@PathVariable int id){
 		boolean result = specificationService.deleteSpecification(id);
 		if(result){
-			return Utils.respondJson("Success delete Specification", result, HttpStatus.OK);
+			return Utils.respondJson("SUCCESS", result, HttpStatus.OK);
 		}else{
-			return Utils.respondJson("Unsuccess delete Specification", result, HttpStatus.CONFLICT);
+			return Utils.respondJson("UNSUCCESS", result, HttpStatus.OK);
 		}
 	}
 }

@@ -18,6 +18,7 @@ public class Utils {
 		if(projectLocation == null){
 			try {
 				projectLocation = new ClassPathResource("product_image").getFile();
+				System.out.println(projectLocation.getPath());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

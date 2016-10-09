@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.setec_ecomerce.repository.products.dto.PageForm;
+import com.setec_ecomerce.repository.products.dto.color.Color;
+import com.setec_ecomerce.repository.products.dto.new_accessory.NewAccessoryImage;
 import com.setec_ecomerce.repository.products.dto.old_accessory.OldAccessory;
 import com.setec_ecomerce.repository.products.dto.old_accessory.OldAccessoryImage;
 import com.setec_ecomerce.repository.utils.Utils;
@@ -88,13 +90,41 @@ public class ProductAccessoryOldController {
 		}
 	}
 	
-	@RequestMapping(value="/oldAccessory/oldAccessoryImage",method=RequestMethod.POST)
+/*	@RequestMapping(value="/oldAccessory/oldAccessoryImage",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertOldAccessoryImage(
 			@RequestParam(value = "file", required=true) MultipartFile file,
 			@RequestParam(value = "data") String data){
 	
 		Gson json = new Gson();
 		OldAccessoryImage image = json.fromJson(data, OldAccessoryImage.class);
+		image = imageService.insertOldAccessoryImage(image, file);
+		if(image == null){
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
+		}else{
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
+		}
+	}*/
+	
+	@RequestMapping(value="/oldAccessory/oldAccessoryImage",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> insertOldAccessoryImage(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("PRO_ID") String PRO_ID,
+			@RequestParam("PRO_SN") String PRO_SN,
+			@RequestParam("COLOR_ID") String COLOR_ID){
+		OldAccessoryImage image = new OldAccessoryImage();
+		image.setOld_accessory_id(PRO_ID);
+		image.setCode_no(PRO_SN);
+		Color color = new Color();
+		int color_id = -1;
+		try {
+			color_id = Integer.valueOf(COLOR_ID);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		color.setColor_id(color_id);
+		image.setColor(color);
+		image.setStatus(true);
+		//System.out.println(image.getNew_camera_id());
 		image = imageService.insertOldAccessoryImage(image, file);
 		if(image == null){
 			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
@@ -128,9 +158,9 @@ public class ProductAccessoryOldController {
 		}
 	}
 	
-	@RequestMapping(value="/oldAccessory/oldAccessoryImage/Accessory/{id}",method=RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> findOldAccessoryImageByCode(@PathVariable String code_no){
-		ArrayList<OldAccessoryImage> image = imageService.getAllOldAccessoryImage(code_no);
+	@RequestMapping(value="/oldAccessory/oldAccessoryImage/Accessory/{serial}",method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> findOldAccessoryImageByCode(@PathVariable String serial){
+		ArrayList<OldAccessoryImage> image = imageService.getAllOldAccessoryImage(serial);
 		if( image == null ){
 			return Utils.respondJson("Record not found", null, HttpStatus.OK);
 		}else{

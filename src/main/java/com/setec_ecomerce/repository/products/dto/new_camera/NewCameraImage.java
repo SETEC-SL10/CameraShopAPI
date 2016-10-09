@@ -1,22 +1,20 @@
 package com.setec_ecomerce.repository.products.dto.new_camera;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.setec_ecomerce.repository.products.dto.color.Color;
 
 public class NewCameraImage {
 	
+	@JsonProperty("ID")
 	private int new_camera_image_id;
-
+	@JsonProperty("PRO_ID")
 	private String new_camera_id;
-
+	@JsonProperty("COLOR")
 	private Color color;
-
+	@JsonProperty("IMG_URL")
 	private String image_url;
-	
+	@JsonProperty("STATUS")
 	private boolean status;
-
-	public NewCameraImage() {
-
-	}
 
 	public int getNew_camera_image_id() {
 		return new_camera_image_id;

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.setec_ecomerce.repository.products.dto.PageForm;
+import com.setec_ecomerce.repository.products.dto.color.Color;
 import com.setec_ecomerce.repository.products.dto.new_accessory.NewAccessory;
 import com.setec_ecomerce.repository.products.dto.new_accessory.NewAccessoryImage;
+import com.setec_ecomerce.repository.products.dto.old_camera.OldCameraImage;
 import com.setec_ecomerce.repository.products.dto.products_form.ProductForm;
 import com.setec_ecomerce.repository.utils.Utils;
 import com.setec_ecomerce.service.products.NewAccessoryImageService;
@@ -91,15 +93,39 @@ public class ProductAccessoryNewController {
 		}
 	}
 	
-	@RequestMapping(value="/newAccessory/newAccessoryImage",method=RequestMethod.POST)
+/*	@RequestMapping(value="/newAccessory/newAccessoryImage",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertNewAccessoryImage(
 			@RequestParam(value = "file", required=true) MultipartFile file,
 			@RequestParam(value = "data") String data){
 	
 		Gson json = new Gson();
-/*		Gson jj = new Gson();
-		jj.toJson(data);*/
 		NewAccessoryImage image = json.fromJson(data, NewAccessoryImage.class);
+		image = imageService.insertNewAccessoryImage(image, file);
+		if(image == null){
+			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
+		}else{
+			return Utils.respondJson("SUCCESS", image, HttpStatus.OK);
+		}
+	}*/
+	
+	@RequestMapping(value="/newAccessory/newAccessoryImage",method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> insertNewAccessoryImage(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("PRO_ID") String PRO_ID,
+			@RequestParam("COLOR_ID") String COLOR_ID){
+		NewAccessoryImage image = new NewAccessoryImage();
+		image.setNew_accessory_id(PRO_ID);
+		Color color = new Color();
+		int color_id = -1;
+		try {
+			color_id = Integer.valueOf(COLOR_ID);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		color.setColor_id(color_id);
+		image.setColor(color);
+		image.setStatus(true);
+		//System.out.println(image.getNew_camera_id());
 		image = imageService.insertNewAccessoryImage(image, file);
 		if(image == null){
 			return Utils.respondJson("UNSUCCESS", null, HttpStatus.OK);
@@ -133,7 +159,7 @@ public class ProductAccessoryNewController {
 		}
 	}
 	
-	@RequestMapping(value="/newAccessory/newAccessoryImage/Accessory/{id}",method=RequestMethod.GET)
+	@RequestMapping(value="/newAccessory/newAccessoryImage/Accessory/{pro_id}",method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> findNewAccessoryImageByAccessoryID(@PathVariable String pro_id){
 		ArrayList<NewAccessoryImage> image = imageService.getAllNewAccessoryImage(pro_id);
 		if( image == null ){

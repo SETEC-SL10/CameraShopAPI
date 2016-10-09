@@ -27,6 +27,7 @@ public class NewCameraImageServiceImpl implements NewCameraImageService{
 			return null;
 		}else{
 			newCameraImage.setImage_url(path);
+			//System.out.println(newCameraImage.getNew_camera_id());
 			return imageDao.insertNewCameraImage(newCameraImage);
 		}
 	}
@@ -64,9 +65,10 @@ public class NewCameraImageServiceImpl implements NewCameraImageService{
 		String path = null;
 		if(file != null){
 			try {
-				String location = Utils.getProjectLocation().getPath() + "\\new_camer\\" + file.getOriginalFilename();
+				String location = Utils.getProjectLocation().getPath() + "\\new_camera\\" + file.getOriginalFilename();
 				Files.copy(file.getInputStream(), new File(location).toPath());
 				path = "product_image/new_camera/" + file.getOriginalFilename();
+				System.out.println(path);
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}

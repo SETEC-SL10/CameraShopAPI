@@ -35,7 +35,8 @@ public interface OldCameraImageDAO {
 	
 	String F_Image = "SELECT old_camera_image_id, old_camera_id, old_camera_serial, image_url, status, color_id FROM table_old_camera_image​​ WHERE old_camera_image_id = #{id} AND status = true";
 	
-	String F_A_Image = "SELECT old_camera_image_id, old_camera_id, old_camera_serial, image_url, status, color_id FROM table_old_camera_image​​ WHERE old_camera_serial = #{old_camera_serial} AND status = true";
+	//SELECT old_camera_image_id, old_camera_id, old_camera_serial, image_url, status, color_id FROM table_old_camera_image WHERE old_camera_serial = #{old_camera_serial} AND status = true;
+	String F_A_Image = "SELECT old_camera_image_id, old_camera_id, old_camera_serial, image_url, status, color_id FROM table_old_camera_image WHERE old_camera_serial = #{old_camera_serial} AND status = true";
 	
 	@Select(C_Image)
 	@Options(statementType = StatementType.CALLABLE)
