@@ -110,7 +110,8 @@ public class ProductCameraNewController {
 	}*/
 	@RequestMapping(value="/newCamera/newCameraImage",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertNewCameraImage(
-			@RequestParam("file") MultipartFile file,
+			@RequestParam(value = "file", required = true) MultipartFile[] file,
+			//@RequestParam("file") MultipartFile file,
 			@RequestParam("PRO_ID") String PRO_ID,
 			@RequestParam("COLOR_ID") String COLOR_ID){
 		NewCameraImage image = new NewCameraImage();
@@ -125,6 +126,7 @@ public class ProductCameraNewController {
 		color.setColor_id(color_id);
 		image.setColor(color);
 		image.setStatus(true);
+		//System.out.println(file.length);
 		//System.out.println(image.getNew_camera_id());
 		image = imageService.insertNewCameraImage(image, file);
 		if(image == null){

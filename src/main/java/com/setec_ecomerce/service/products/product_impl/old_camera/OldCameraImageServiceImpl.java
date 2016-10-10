@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.setec_ecomerce.repository.products.dao.old_camera.OldCameraImageDAO;
+import com.setec_ecomerce.repository.products.dto.old_accessory.OldAccessoryImage;
 import com.setec_ecomerce.repository.products.dto.old_camera.OldCameraImage;
 import com.setec_ecomerce.repository.utils.Utils;
 import com.setec_ecomerce.service.products.OldCameraImageService;
@@ -22,14 +23,27 @@ public class OldCameraImageServiceImpl implements OldCameraImageService{
 	private OldCameraImageDAO imageDao;
 	
 	@Override
-	public OldCameraImage insertOldCameraImage(OldCameraImage oldCameraImage, MultipartFile file) {
-		String path = doUploadFile(file);
+	public OldCameraImage insertOldCameraImage(OldCameraImage oldCameraImage, MultipartFile[] file) {
+		OldCameraImage tmp = null ;
+		String path = null;
+		for (int i = 0; i < file.length; i++) {
+			path = doUploadFile(file[i]);
+			if(path == null){
+				return null;
+			}else{
+				oldCameraImage.setImage_url(path);
+				//System.out.println(newCameraImage.getNew_camera_id());
+				tmp = imageDao.insertOldCameraImage(oldCameraImage);
+			}
+		}
+		return tmp;
+/*		String path = doUploadFile(file);
 		if(path == null){
 			return null;
 		}else{
 			oldCameraImage.setImage_url(path);
 			return imageDao.insertOldCameraImage(oldCameraImage);
-		}
+		}*/
 	}
 
 	@Override

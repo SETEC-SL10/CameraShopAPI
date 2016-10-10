@@ -110,7 +110,7 @@ public class ProductAccessoryNewController {
 	
 	@RequestMapping(value="/newAccessory/newAccessoryImage",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertNewAccessoryImage(
-			@RequestParam("file") MultipartFile file,
+			@RequestParam(value = "file", required = true) MultipartFile[] file,
 			@RequestParam("PRO_ID") String PRO_ID,
 			@RequestParam("COLOR_ID") String COLOR_ID){
 		NewAccessoryImage image = new NewAccessoryImage();

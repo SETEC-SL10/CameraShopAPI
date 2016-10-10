@@ -112,7 +112,7 @@ public class ProductCameraOldController {
 	
 	@RequestMapping(value="/oldCamera/oldCameraImage",method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> insertOldCameraImage(
-			@RequestParam("file") MultipartFile file,
+			@RequestParam(value = "file", required = true) MultipartFile[] file,
 			@RequestParam("PRO_ID") String PRO_ID,
 			@RequestParam("PRO_SN") String PRO_SN,
 			@RequestParam("COLOR_ID") String COLOR_ID){

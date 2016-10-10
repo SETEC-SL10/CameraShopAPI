@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.setec_ecomerce.repository.products.dto.new_camera.NewCameraImage;
 
 public interface NewCameraImageService {
-	NewCameraImage insertNewCameraImage(NewCameraImage newCameraImage, MultipartFile file);
+	NewCameraImage insertNewCameraImage(NewCameraImage newCameraImage, MultipartFile[] file);
 	NewCameraImage updateNewCameraImage(NewCameraImage newCameraImage, MultipartFile file);
 	boolean deleteNewCameraImage(int id);
 	NewCameraImage findNewCameraImage(int id);

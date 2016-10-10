@@ -8,7 +8,7 @@ import com.setec_ecomerce.repository.products.dto.new_accessory.NewAccessoryImag
 
 
 public interface NewAccessoryImageService {
-	NewAccessoryImage insertNewAccessoryImage(NewAccessoryImage newAccessoryImage, MultipartFile file);
+	NewAccessoryImage insertNewAccessoryImage(NewAccessoryImage newAccessoryImage, MultipartFile[] file);
 	NewAccessoryImage updateNewAccessoryImage(NewAccessoryImage newAccessoryImage, MultipartFile file);
 	boolean deleteNewAccessoryImage(int id);
 	NewAccessoryImage findNewAccessoryImage(int id);
