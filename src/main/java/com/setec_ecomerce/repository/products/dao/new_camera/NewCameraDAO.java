@@ -58,7 +58,7 @@ public interface NewCameraDAO {
 	
 	String D_NewCamera = "UPDATE table_new_camera SET status = 'f' WHERE new_camera_id = #{id}";
 	
-	String S_NewCamera = "SELECT ROW_NUMBER() OVER() as no, * FROM view_camera_new ORDER BY no DESC LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String S_NewCamera = "SELECT * FROM view_camera_new LIMIT #{limit} OFFSET #{limit} * #{page}";
 	String Count_S_NewCamera = "SELECT ceil( count(*)::NUMERIC / #{limit} )  FROM view_camera_new";
 	
 	String S_NewCamera_Name = "SELECT * FROM view_camera_new WHERE LOWER(view_camera_new.new_camera_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";

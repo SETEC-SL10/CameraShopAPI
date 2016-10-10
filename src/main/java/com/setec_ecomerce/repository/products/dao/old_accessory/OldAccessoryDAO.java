@@ -55,7 +55,7 @@ public interface OldAccessoryDAO {
 
 	String R_OldAccessory = "SELECT old_accessory_id, old_accessory_code, old_accessory_name, description, qty_in_stock, available_stock, sell_price, province_ship_price, local_ship_price, type_id, category_id, brand_id, model_id, detail, img_url, created_date, status FROM table_old_accessory  WHERE old_accessory_id = #{id} AND status = true";
 	
-	String S_OldAccessory = "SELECT ROW_NUMBER() OVER() as no, * FROM view_accessory_old ORDER BY no DESC LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String S_OldAccessory = "SELECT * FROM view_accessory_old LIMIT #{limit} OFFSET #{limit} * #{page}";
 	String Count_S_OldAccessory = "SELECT ceil( count(*)::NUMERIC / #{limit} )  FROM view_accessory_old";
 	
 	String S_OldAccessory_Name = "SELECT * FROM view_accessory_old WHERE LOWER(view_accessory_old.old_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";

@@ -126,7 +126,7 @@ public class ProductCameraNewController {
 		color.setColor_id(color_id);
 		image.setColor(color);
 		image.setStatus(true);
-		//System.out.println(file.length);
+		System.out.println(file.length);
 		//System.out.println(image.getNew_camera_id());
 		image = imageService.insertNewCameraImage(image, file);
 		if(image == null){

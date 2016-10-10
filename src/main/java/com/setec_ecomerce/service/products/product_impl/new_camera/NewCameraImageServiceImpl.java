@@ -23,14 +23,16 @@ public class NewCameraImageServiceImpl implements NewCameraImageService{
 	@Override
 	public NewCameraImage insertNewCameraImage(NewCameraImage newCameraImage, MultipartFile[] file) {
 		NewCameraImage tmp = null ;
+		String path = null;
 		for (int i = 0; i < file.length; i++) {
-			String path = doUploadFile(file[i]);
+			path = doUploadFile(file[i]);
 			if(path == null){
 				return null;
 			}else{
 				newCameraImage.setImage_url(path);
 				//System.out.println(newCameraImage.getNew_camera_id());
 				tmp = imageDao.insertNewCameraImage(newCameraImage);
+				System.out.println(tmp.getImage_url());
 			}
 		}
 		return tmp;

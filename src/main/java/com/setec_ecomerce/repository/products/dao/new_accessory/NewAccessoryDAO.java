@@ -56,7 +56,7 @@ public interface NewAccessoryDAO {
 	
 	String F_newAccesory = " SELECT * FROM table_new_accessory WHERE new_accessory_id = #{id} AND status = true";
 	
-	String S_NewAccesory = "SELECT ROW_NUMBER() OVER() as no, * FROM view_accessory_new ORDER BY no DESC LIMIT #{limit} OFFSET #{limit} * #{page}";
+	String S_NewAccesory = "SELECT * FROM view_accessory_new LIMIT #{limit} OFFSET #{limit} * #{page}";
 	String Count_S_NewAccesory = "SELECT ceil( count(*)::NUMERIC / #{limit} )  FROM view_accessory_new";
 	
 	String S_NewAccesory_Name = "SELECT * FROM view_accessory_new WHERE LOWER(view_accessory_new.new_accessory_name) LIKE '%'|| LOWER(#{conditionValue}) ||'%' LIMIT #{limit} OFFSET #{limit} * #{page}";
