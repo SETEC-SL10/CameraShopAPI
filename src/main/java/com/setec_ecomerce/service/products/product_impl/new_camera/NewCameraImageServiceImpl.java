@@ -2,6 +2,7 @@ package com.setec_ecomerce.service.products.product_impl.new_camera;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class NewCameraImageServiceImpl implements NewCameraImageService{
 		NewCameraImage tmp = null ;
 		String path = null;
 		for (int i = 0; i < file.length; i++) {
-			path = doUploadFile(file[i]);
+			path = Utils.doUploadFile(file[i],"/new_camera/");
 			if(path == null){
 				return null;
 			}else{
@@ -44,7 +45,7 @@ public class NewCameraImageServiceImpl implements NewCameraImageService{
 		if(file == null){
 			return imageDao.updateNewCameraImage(newCameraImage);
 		}else{
-			String path = doUploadFile(file);
+			String path = Utils.doUploadFile(file,"/new_camera/");
 			newCameraImage.setImage_url(path);
 			return imageDao.updateNewCameraImage(newCameraImage);
 		}
@@ -68,22 +69,6 @@ public class NewCameraImageServiceImpl implements NewCameraImageService{
 		return imageDao.getAllNewCameraImage(pro_id);
 	}
 
-	private String doUploadFile(MultipartFile file){
-		String path = null;
-		if(file != null){
-			try {
-				String fileName = file.getOriginalFilename();
-				fileName = UUID.randomUUID().toString() + "." + fileName.substring(fileName.lastIndexOf(".") + 1);
-				
-				String location = Utils.getProjectLocation().getPath() + "\\new_camera\\" + fileName;
-				Files.copy(file.getInputStream(), new File(location).toPath());
-				path = "product_image/new_camera/" + fileName;
-				System.out.println(path);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return path;
-	}
+
 
 }
