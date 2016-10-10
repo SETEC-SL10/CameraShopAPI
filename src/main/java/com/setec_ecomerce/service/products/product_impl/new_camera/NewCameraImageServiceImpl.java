@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,9 +72,12 @@ public class NewCameraImageServiceImpl implements NewCameraImageService{
 		String path = null;
 		if(file != null){
 			try {
-				String location = Utils.getProjectLocation().getPath() + "\\new_camera\\" + file.getOriginalFilename();
+				String fileName = file.getOriginalFilename();
+				fileName = UUID.randomUUID().toString() + "." + fileName.substring(fileName.lastIndexOf(".") + 1);
+				
+				String location = Utils.getProjectLocation().getPath() + "\\new_camera\\" + fileName;
 				Files.copy(file.getInputStream(), new File(location).toPath());
-				path = "product_image/new_camera/" + file.getOriginalFilename();
+				path = "product_image/new_camera/" + fileName;
 				System.out.println(path);
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
